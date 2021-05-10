@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id        Int    @id @default(autoincrement())
+  email     String @unique
+  firstName String
+  lastName  String
+  role      Role   @default(USER)
+  password  String
+}
+
+model City {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  country   Country   @relation(fields: [countryId], references: [id])
+  countryId Int
+  companies Company[]
+  contacts  Contact[]
+}
+
+model Country {
+  id       Int    @id @default(autoincrement())
+  name     String @unique
+  region   Region @relation(fields: [regionId], references: [id])
+  regionId Int
+  city     City[]
+}
+
+model Region {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  countries Country[]
+}
+
+model Company {
+  id      String @id @default(uuid())
+  name    String @unique
+  address String
+  email   String
+  phone   String
+  city    City   @relation(fields: [cityId], references: [id])
+  cityId  Int
+}
+
+model Contact {
+  id        Int                  @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String               @unique
+  role      String
+  interest  Decimal
+  address   String
+  city      City                 @relation(fields: [cityId], references: [id])
+  cityId    Int
+  channels  ChannelsOnContacts[]
+}
+
+model Channel {
+  id      Int                  @id @default(autoincrement())
+  name    String
+  contacs ChannelsOnContacts[]
+}
+
+enum PreferedChanel {
+  NO_PREFERENCE
+  FAVORITE
+  DONT_DISTURB
+}
+
+model ChannelsOnContacts {
+  id         Int            @id @default(autoincrement())
+  contact    Contact        @relation(fields: [contactId], references: [id])
+  contactId  Int
+  channel    Channel        @relation(fields: [channelId], references: [id])
+  channelId  Int
+  account    String?
+  phone      String?
+  preference PreferedChanel @default(NO_PREFERENCE)
+}
