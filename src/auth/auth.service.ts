@@ -1,12 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from './../users/users.service';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
-  public async validateUser(email: string, password: string) {
+  async validateUser(email: string, password: string): Promise<User> {
     try {
       const user = await this.usersService.findOne({ email });
       await this.verifyPassword(password, user.password);
@@ -27,5 +32,18 @@ export class AuthService {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  public getCookieWithJwtToken(user: User) {
+    const payload = { sub: user.id };
+    const token = this.jwtService.sign(payload);
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age='1d'`;
+  }
+
+  async getJwtToken(user: User) {
+    const payload = { sub: user.id };
+    return {
+      token: this.jwtService.sign(payload),
+    };
   }
 }
