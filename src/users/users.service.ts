@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.services';
 import { User, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
@@ -15,7 +15,7 @@ export class UsersService {
     });
   }
 
-  findAll(params: {
+  async findAll(params: {
     skip?: number;
     take?: number;
     cursor?: Prisma.UserWhereUniqueInput;
@@ -32,12 +32,15 @@ export class UsersService {
     });
   }
 
-  findOne(
+  async findOne(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
   ): Promise<User | null> {
-    return this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: userWhereUniqueInput,
     });
+
+    if (user) return user;
+    throw new HttpException('User does not exist', HttpStatus.NOT_FOUND);
   }
 
   async update(params: {
