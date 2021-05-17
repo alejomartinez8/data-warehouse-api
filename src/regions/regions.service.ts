@@ -1,7 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, Region } from '@prisma/client';
-import { FindAllDto } from './dto/find-all.dto';
+import { FindAllDto } from '../common/dto/find-all.dto';
 
 @Injectable()
 export class RegionsService {
@@ -27,6 +27,7 @@ export class RegionsService {
         cursor,
         where,
         orderBy,
+        include: { countries: { include: { city: true } } },
       });
     } catch (error) {
       throw error;
