@@ -48,7 +48,7 @@ model Region {
 }
 
 model Company {
-  id      String @id @default(uuid())
+  id      Int    @id @default(autoincrement())
   name    String @unique
   address String
   email   String
