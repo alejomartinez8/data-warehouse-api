@@ -37,10 +37,14 @@ export class AuthService {
   public getCookieWithJwtToken(user: User) {
     const payload = { sub: user.id };
     const token = this.jwtService.sign(payload);
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age='1d'`;
+    return `user=${token}; HttpOnly; Path=/; Max-Age='1d'`;
   }
 
-  async getJwtToken(user: User) {
+  public getCookieForLogout() {
+    return `user=; HttpOnly; Path=/; Max-Age=0`;
+  }
+
+  public async getJwtToken(user: User) {
     const payload = { sub: user.id };
     return {
       token: this.jwtService.sign(payload),
