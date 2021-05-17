@@ -38,7 +38,7 @@ model Country {
   name     String @unique
   region   Region @relation(fields: [regionId], references: [id])
   regionId Int
-  city     City[]
+  cities   City[]
 }
 
 model Region {
