@@ -38,7 +38,7 @@ model Country {
   name     String @unique
   region   Region @relation(fields: [regionId], references: [id])
   regionId Int
-  city     City[]
+  cities   City[]
 }
 
 model Region {
@@ -48,7 +48,7 @@ model Region {
 }
 
 model Company {
-  id      String @id @default(uuid())
+  id      Int    @id @default(autoincrement())
   name    String @unique
   address String
   email   String
