@@ -42,7 +42,7 @@ CREATE TABLE `Region` (
 
 -- CreateTable
 CREATE TABLE `Company` (
-    `id` VARCHAR(191) NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `address` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,

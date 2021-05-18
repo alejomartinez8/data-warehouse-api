@@ -9,7 +9,13 @@ export class CompaniesService {
   async create(data: Prisma.CompanyCreateInput) {
     try {
       const company = await this.prisma.company.create({
-        data,
+        data: {
+          ...data,
+          city: { connect: { id: data.city as number } },
+        },
+        include: {
+          city: true,
+        },
       });
       if (company) return company;
     } catch (error) {
@@ -32,6 +38,9 @@ export class CompaniesService {
         cursor,
         where,
         orderBy,
+        include: {
+          city: { include: { country: { include: { region: true } } } },
+        },
       });
     } catch (error) {
       throw error;
