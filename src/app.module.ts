@@ -7,6 +7,7 @@ import { CountriesModule } from './countries/countries.module';
 import { CitiesModule } from './cities/cities.module';
 import { CompaniesModule } from './companies/companies.module';
 import { ChannelsModule } from './channels/channels.module';
+import { ContactsModule } from './contacts/contacts.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ChannelsModule } from './channels/channels.module';
     CitiesModule,
     CompaniesModule,
     ChannelsModule,
+    ContactsModule,
   ],
 })
 export class AppModule {}

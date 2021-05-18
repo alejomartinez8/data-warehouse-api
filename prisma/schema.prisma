@@ -62,7 +62,7 @@ model Contact {
   firstName String
   lastName  String
   email     String               @unique
-  role      String
+  position  String
   interest  Decimal
   address   String
   city      City                 @relation(fields: [cityId], references: [id])

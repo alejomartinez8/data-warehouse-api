@@ -59,7 +59,7 @@ CREATE TABLE `Contact` (
     `firstName` VARCHAR(191) NOT NULL,
     `lastName` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
-    `role` VARCHAR(191) NOT NULL,
+    `position` VARCHAR(191) NOT NULL,
     `interest` DECIMAL(65, 30) NOT NULL,
     `address` VARCHAR(191) NOT NULL,
     `cityId` INTEGER NOT NULL,
