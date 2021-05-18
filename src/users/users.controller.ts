@@ -9,10 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { User, Prisma } from '@prisma/client';
+import { User } from '@prisma/client';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/role.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -21,8 +23,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() userCreateInput: Prisma.UserCreateInput): Promise<User> {
-    return this.usersService.create(userCreateInput);
+  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.usersService.create(createUserDto);
   }
 
   @Get()
@@ -36,10 +38,7 @@ export class UsersController {
   }
 
   @Put(':id')
-  async update(
-    @Param('id') id: number,
-    @Body() updateUserDto: Prisma.UserUpdateInput,
-  ) {
+  async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update({
       where: { id: +id },
       data: updateUserDto,

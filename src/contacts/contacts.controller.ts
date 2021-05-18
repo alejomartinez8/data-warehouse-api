@@ -13,6 +13,7 @@ import { Prisma, Contact } from '@prisma/client';
 import { RolesGuard } from 'src/auth/guards/role.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
+import { CreateContactDto } from './dto/create-contact.dto';
 
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -21,7 +22,7 @@ export class ContactsController {
   constructor(private readonly contactsService: ContactsService) {}
 
   @Post()
-  async create(@Body() data: Prisma.ContactCreateInput): Promise<Contact> {
+  async create(@Body() data: CreateContactDto): Promise<Contact> {
     return this.contactsService.create(data);
   }
 
@@ -58,9 +59,7 @@ export class ContactsController {
   }
 
   @Delete(':id')
-  async remove(
-    @Param('id') companyWhereUniqueInput: Prisma.ContactWhereUniqueInput,
-  ) {
-    return this.contactsService.remove(companyWhereUniqueInput);
+  async remove(@Param('id') id: number) {
+    return this.contactsService.remove({ id: Number(id) });
   }
 }

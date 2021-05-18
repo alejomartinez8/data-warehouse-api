@@ -8,6 +8,8 @@ import { CitiesModule } from './cities/cities.module';
 import { CompaniesModule } from './companies/companies.module';
 import { ChannelsModule } from './channels/channels.module';
 import { ContactsModule } from './contacts/contacts.module';
+import { APP_FILTER } from '@nestjs/core';
+import { ExceptionsLoggerFilter } from './utils/exceptionsLogger.filter';
 
 @Module({
   imports: [
@@ -20,6 +22,12 @@ import { ContactsModule } from './contacts/contacts.module';
     CompaniesModule,
     ChannelsModule,
     ContactsModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionsLoggerFilter,
+    },
   ],
 })
 export class AppModule {}

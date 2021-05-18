@@ -1,16 +1,34 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, Contact } from '@prisma/client';
+import { CreateContactDto } from './dto/create-contact.dto';
 
 @Injectable()
 export class ContactsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.ContactCreateInput): Promise<Contact> {
-    console.log(data);
+  async create(data: CreateContactDto): Promise<Contact> {
+    const channels = data.channelIds?.map((channelId) => ({ channelId }));
+
     try {
       const contact = await this.prisma.contact.create({
-        data,
+        data: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          interest: data.interest,
+          address: data.address,
+          position: data.position,
+          city: {
+            connect: {
+              id: data.cityId,
+            },
+          },
+          channels: {
+            create: channels,
+          },
+        },
+        include: { city: true, channels: true },
       });
 
       if (contact) return contact;
@@ -34,7 +52,7 @@ export class ContactsService {
         cursor,
         where,
         orderBy,
-        include: { city: true, channels: true },
+        include: { city: true, channels: { include: { channel: true } } },
       });
     } catch (error) {
       throw error;
@@ -60,7 +78,7 @@ export class ContactsService {
     const { where, data } = params;
 
     return this.prisma.contact.update({
-      data,
+      data: { ...data },
       where,
     });
   }
