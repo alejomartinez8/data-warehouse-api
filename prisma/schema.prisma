@@ -71,9 +71,9 @@ model Contact {
 }
 
 model Channel {
-  id      Int                  @id @default(autoincrement())
-  name    String
-  contacs ChannelsOnContacts[]
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  ChannelsOnContacts ChannelsOnContacts[]
 }
 
 enum PreferedChanel {

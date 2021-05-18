@@ -58,7 +58,11 @@ async function main() {
     },
   });
 
-  console.log({ admin, basic, region });
+  const channels = await prisma.channel.createMany({
+    data: [{ name: 'Facebook' }, { name: 'Whatsapp' }, { name: 'Instagram' }],
+  });
+
+  console.log({ admin, basic, region, channels });
 }
 
 main()
