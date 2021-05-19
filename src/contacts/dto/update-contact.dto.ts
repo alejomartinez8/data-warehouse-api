@@ -37,6 +37,10 @@ export class UpdateContactDto extends PartialType(CreateContactDto) {
   @IsOptional()
   cityId?: number;
 
+  @IsNumber()
+  @IsOptional()
+  companyId?: number;
+
   @IsArray()
   @IsOptional()
   channelIds?: number[];

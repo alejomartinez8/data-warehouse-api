@@ -21,9 +21,10 @@ export class ContactsService {
           address: data.address,
           position: data.position,
           city: { connect: { id: data.cityId } },
+          company: { connect: { id: data.companyId } },
           channels: { create: channels },
         },
-        include: { city: true, channels: true },
+        include: { city: true, channels: true, company: true },
       });
 
       if (contact) return contact;
@@ -41,7 +42,11 @@ export class ContactsService {
         cursor,
         where,
         orderBy,
-        include: { city: true, channels: { include: { channel: true } } },
+        include: {
+          city: true,
+          channels: { include: { channel: true } },
+          company: true,
+        },
       });
     } catch (error) {
       throw error;
@@ -67,7 +72,7 @@ export class ContactsService {
     const { where, data } = params;
 
     return this.prisma.contact.update({
-      data: { ...data },
+      data,
       where,
     });
   }

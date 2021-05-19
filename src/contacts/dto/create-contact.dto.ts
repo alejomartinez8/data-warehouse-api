@@ -31,6 +31,9 @@ export class CreateContactDto {
   @IsNumber()
   cityId: number;
 
+  @IsNumber()
+  companyId: number;
+
   @IsArray()
   @IsOptional()
   channelIds?: number[];
