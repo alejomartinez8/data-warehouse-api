@@ -12,6 +12,7 @@ import { JwtAuthGuard } from './guards/jwt.guard';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { User } from '@prisma/client';
+import { RequestWithUser } from './interfaces/requestWithUser.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -20,7 +21,7 @@ export class AuthController {
   @HttpCode(200)
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Req() req, @Res() res: Response) {
+  async login(@Req() req: RequestWithUser, @Res() res: Response) {
     const cookie = this.authService.getCookieWithJwtToken(req.user);
     res.setHeader('Set-Cookie', cookie);
     return res.send(req.user);

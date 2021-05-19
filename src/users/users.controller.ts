@@ -40,13 +40,13 @@ export class UsersController {
   @Put(':id')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update({
-      where: { id: +id },
       data: updateUserDto,
+      where: { id: Number(id) },
     });
   }
 
   @Delete(':id')
   async remove(@Param('id') id: number) {
-    return this.usersService.remove({ id: +id });
+    return this.usersService.remove({ id: Number(id) });
   }
 }

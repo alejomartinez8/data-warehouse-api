@@ -1,16 +1,18 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, Region } from '@prisma/client';
-import { FindAllDto } from '../common/dto/find-all.dto';
+import { FindAllRegionDto } from './dto/findAll-region.dto';
+import { CreateRegionDto } from './dto/create-region.dto';
+import { UpdateRegionDto } from './dto/update-region.dto';
 
 @Injectable()
 export class RegionsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(regionCreateInput: Prisma.RegionCreateInput) {
+  async create(createRegionDto: CreateRegionDto) {
     try {
       const region = await this.prisma.region.create({
-        data: regionCreateInput,
+        data: createRegionDto,
       });
       if (region) return region;
     } catch (error) {
@@ -18,7 +20,7 @@ export class RegionsService {
     }
   }
 
-  async findAll(params: FindAllDto): Promise<Region[]> {
+  async findAll(params: FindAllRegionDto): Promise<Region[]> {
     try {
       const { skip, take, cursor, where, orderBy } = params;
       return this.prisma.region.findMany({
@@ -48,7 +50,7 @@ export class RegionsService {
 
   async update(params: {
     where: Prisma.RegionWhereUniqueInput;
-    data: Prisma.RegionUpdateInput;
+    data: UpdateRegionDto;
   }): Promise<Region> {
     const { where, data } = params;
 

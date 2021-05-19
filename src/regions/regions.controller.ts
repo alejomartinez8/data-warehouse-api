@@ -1,4 +1,3 @@
-import { FindAllDto } from '../common/dto/find-all.dto';
 import {
   Controller,
   Get,
@@ -10,10 +9,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { RegionsService } from './regions.service';
-import { Prisma, Region } from '@prisma/client';
+import { Region } from '@prisma/client';
 import { RolesGuard } from 'src/auth/guards/role.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
+import { UpdateRegionDto } from './dto/update-region.dto';
+import { CreateRegionDto } from './dto/create-region.dto';
+import { FindAllRegionDto } from './dto/findAll-region.dto';
 
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -22,15 +24,13 @@ export class RegionsController {
   constructor(private readonly regionsService: RegionsService) {}
 
   @Post()
-  async create(
-    @Body() regionCreateInput: Prisma.RegionCreateInput,
-  ): Promise<Region> {
-    return this.regionsService.create(regionCreateInput);
+  async create(@Body() createRegionDto: CreateRegionDto): Promise<Region> {
+    return this.regionsService.create(createRegionDto);
   }
 
   @Roles(Role.ADMIN, Role.USER)
   @Get()
-  async findAll(@Param() params: FindAllDto): Promise<Region[]> {
+  async findAll(@Param() params: FindAllRegionDto): Promise<Region[]> {
     return this.regionsService.findAll(params);
   }
 
@@ -43,11 +43,11 @@ export class RegionsController {
   @Put(':id')
   async update(
     @Param('id') id: number,
-    @Body() regionUpdateInput: Prisma.RegionUpdateInput,
+    @Body() updateRegionDto: UpdateRegionDto,
   ) {
     return this.regionsService.update({
       where: { id: +id },
-      data: regionUpdateInput,
+      data: updateRegionDto,
     });
   }
 

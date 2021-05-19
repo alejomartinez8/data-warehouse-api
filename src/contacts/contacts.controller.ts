@@ -14,6 +14,7 @@ import { RolesGuard } from 'src/auth/guards/role.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
 import { CreateContactDto } from './dto/create-contact.dto';
+import { FindAllContactsDto } from './dto/findAll-contact.dto';
 
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -30,13 +31,7 @@ export class ContactsController {
   @Get()
   async findAll(
     @Param()
-    params: {
-      skip?: number;
-      take?: number;
-      cursor?: Prisma.ContactWhereUniqueInput;
-      where?: Prisma.ContactWhereInput;
-      orderBy?: Prisma.ContactOrderByInput;
-    },
+    params: FindAllContactsDto,
   ): Promise<Contact[]> {
     return this.contactsService.findAll(params);
   }

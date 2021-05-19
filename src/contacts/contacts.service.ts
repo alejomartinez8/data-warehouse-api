@@ -2,6 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, Contact } from '@prisma/client';
 import { CreateContactDto } from './dto/create-contact.dto';
+import { FindAllContactsDto } from './dto/findAll-contact.dto';
 
 @Injectable()
 export class ContactsService {
@@ -19,14 +20,8 @@ export class ContactsService {
           interest: data.interest,
           address: data.address,
           position: data.position,
-          city: {
-            connect: {
-              id: data.cityId,
-            },
-          },
-          channels: {
-            create: channels,
-          },
+          city: { connect: { id: data.cityId } },
+          channels: { create: channels },
         },
         include: { city: true, channels: true },
       });
@@ -37,13 +32,7 @@ export class ContactsService {
     }
   }
 
-  async findAll(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.ContactWhereUniqueInput;
-    where?: Prisma.ContactWhereInput;
-    orderBy?: Prisma.ContactOrderByInput;
-  }): Promise<Contact[]> {
+  async findAll(params: FindAllContactsDto): Promise<Contact[]> {
     try {
       const { skip, take, cursor, where, orderBy } = params;
       return this.prisma.contact.findMany({

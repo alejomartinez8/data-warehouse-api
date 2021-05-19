@@ -1,21 +1,23 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, City } from '@prisma/client';
-import { FindAllDto } from '../common/dto/find-all.dto';
+import { CreateCityDto } from './dto/create-city.dto';
+import { UpdateCityDto } from './dto/update-city.dto';
+import { FindAllCitiesDto } from './dto/findAll-city.dto';
 
 @Injectable()
 export class CitiesService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: { name: string; country: number }) {
-    const { name, country } = data;
+  async create(data: CreateCityDto) {
+    const { name, countryId } = data;
 
     try {
       const city = await this.prisma.city.create({
         data: {
           name,
           country: {
-            connect: { id: country },
+            connect: { id: countryId },
           },
         },
         include: {
@@ -28,7 +30,7 @@ export class CitiesService {
     }
   }
 
-  async findAll(params: FindAllDto): Promise<City[]> {
+  async findAll(params: FindAllCitiesDto): Promise<City[]> {
     try {
       const { skip, take, cursor, where, orderBy } = params;
       return this.prisma.city.findMany({
@@ -58,7 +60,7 @@ export class CitiesService {
 
   async update(params: {
     where: Prisma.CityWhereUniqueInput;
-    data: Prisma.CityUpdateInput;
+    data: UpdateCityDto;
   }): Promise<City> {
     const { where, data } = params;
 

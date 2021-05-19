@@ -1,4 +1,3 @@
-import { FindAllDto } from '../common/dto/find-all.dto';
 import {
   Controller,
   Get,
@@ -10,10 +9,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CitiesService } from './cities.service';
-import { Prisma, City } from '@prisma/client';
+import { City } from '@prisma/client';
 import { RolesGuard } from 'src/auth/guards/role.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
+import { CreateCityDto } from './dto/create-city.dto';
+import { UpdateCityDto } from './dto/update-city.dto';
+import { FindAllCitiesDto } from './dto/findAll-city.dto';
 
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -22,35 +24,32 @@ export class CitiesController {
   constructor(private readonly citiesService: CitiesService) {}
 
   @Post()
-  async create(@Body() data: { name: string; country: number }): Promise<City> {
-    return this.citiesService.create(data);
+  async create(@Body() createCityDto: CreateCityDto): Promise<City> {
+    return this.citiesService.create(createCityDto);
   }
 
   @Roles(Role.ADMIN, Role.USER)
   @Get()
-  async findAll(@Param() params: FindAllDto): Promise<City[]> {
+  async findAll(@Param() params: FindAllCitiesDto): Promise<City[]> {
     return this.citiesService.findAll(params);
   }
 
   @Roles(Role.ADMIN, Role.USER)
   @Get(':id')
   async findOne(@Param('id') id: number) {
-    return this.citiesService.findOne({ id: +id });
+    return this.citiesService.findOne({ id: Number(id) });
   }
 
   @Put(':id')
-  async update(
-    @Param('id') id: number,
-    @Body() countryUpdateInput: Prisma.CityUpdateInput,
-  ) {
+  async update(@Param('id') id: number, @Body() updateCityDto: UpdateCityDto) {
     return this.citiesService.update({
-      where: { id: +id },
-      data: countryUpdateInput,
+      where: { id: Number(id) },
+      data: updateCityDto,
     });
   }
 
   @Delete(':id')
   async remove(@Param('id') id: number) {
-    return this.citiesService.remove({ id: +id });
+    return this.citiesService.remove({ id: Number(id) });
   }
 }

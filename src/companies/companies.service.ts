@@ -1,17 +1,23 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, Company } from '@prisma/client';
+import { CreateCompanyDto } from './dto/create-company.dto';
+import { UpdateCompanyDto } from './dto/update-company.dto';
+import { FindAllCompaniesDto } from './dto/findAll-company.dto';
 
 @Injectable()
 export class CompaniesService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.CompanyCreateInput) {
+  async create(data: CreateCompanyDto) {
     try {
       const company = await this.prisma.company.create({
         data: {
-          ...data,
-          city: { connect: { id: data.city as number } },
+          name: data.name,
+          email: data.email,
+          address: data.address,
+          phone: data.phone,
+          city: { connect: { id: data.cityId } },
         },
         include: {
           city: true,
@@ -23,13 +29,7 @@ export class CompaniesService {
     }
   }
 
-  async findAll(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.CompanyWhereUniqueInput;
-    where?: Prisma.CompanyWhereInput;
-    orderBy?: Prisma.CompanyOrderByInput;
-  }): Promise<Company[]> {
+  async findAll(params: FindAllCompaniesDto): Promise<Company[]> {
     try {
       const { skip, take, cursor, where, orderBy } = params;
       return this.prisma.company.findMany({
@@ -61,7 +61,7 @@ export class CompaniesService {
 
   async update(params: {
     where: Prisma.CompanyWhereUniqueInput;
-    data: Prisma.CompanyUpdateInput;
+    data: UpdateCompanyDto;
   }): Promise<Company> {
     const { where, data } = params;
 
