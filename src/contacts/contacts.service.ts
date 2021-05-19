@@ -1,16 +1,30 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, Contact } from '@prisma/client';
+import { CreateContactDto } from './dto/create-contact.dto';
+import { FindAllContactsDto } from './dto/findAll-contact.dto';
 
 @Injectable()
 export class ContactsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.ContactCreateInput): Promise<Contact> {
-    console.log(data);
+  async create(data: CreateContactDto): Promise<Contact> {
+    const channels = data.channelIds?.map((channelId) => ({ channelId }));
+
     try {
       const contact = await this.prisma.contact.create({
-        data,
+        data: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          interest: data.interest,
+          address: data.address,
+          position: data.position,
+          city: { connect: { id: data.cityId } },
+          company: { connect: { id: data.companyId } },
+          channels: { create: channels },
+        },
+        include: { city: true, channels: true, company: true },
       });
 
       if (contact) return contact;
@@ -19,13 +33,7 @@ export class ContactsService {
     }
   }
 
-  async findAll(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.ContactWhereUniqueInput;
-    where?: Prisma.ContactWhereInput;
-    orderBy?: Prisma.ContactOrderByInput;
-  }): Promise<Contact[]> {
+  async findAll(params: FindAllContactsDto): Promise<Contact[]> {
     try {
       const { skip, take, cursor, where, orderBy } = params;
       return this.prisma.contact.findMany({
@@ -34,7 +42,11 @@ export class ContactsService {
         cursor,
         where,
         orderBy,
-        include: { city: true, channels: true },
+        include: {
+          city: true,
+          channels: { include: { channel: true } },
+          company: true,
+        },
       });
     } catch (error) {
       throw error;

@@ -48,13 +48,14 @@ model Region {
 }
 
 model Company {
-  id      Int    @id @default(autoincrement())
-  name    String @unique
+  id      Int       @id @default(autoincrement())
+  name    String    @unique
   address String
   email   String
   phone   String
-  city    City   @relation(fields: [cityId], references: [id])
+  city    City      @relation(fields: [cityId], references: [id])
   cityId  Int
+  Contact Contact[]
 }
 
 model Contact {
@@ -65,6 +66,8 @@ model Contact {
   position  String
   interest  Decimal
   address   String
+  company   Company              @relation(fields: [companyId], references: [id])
+  companyId Int
   city      City                 @relation(fields: [cityId], references: [id])
   cityId    Int
   channels  ChannelsOnContacts[]

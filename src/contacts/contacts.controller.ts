@@ -13,6 +13,8 @@ import { Prisma, Contact } from '@prisma/client';
 import { RolesGuard } from 'src/auth/guards/role.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
+import { CreateContactDto } from './dto/create-contact.dto';
+import { FindAllContactsDto } from './dto/findAll-contact.dto';
 
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -21,7 +23,7 @@ export class ContactsController {
   constructor(private readonly contactsService: ContactsService) {}
 
   @Post()
-  async create(@Body() data: Prisma.ContactCreateInput): Promise<Contact> {
+  async create(@Body() data: CreateContactDto): Promise<Contact> {
     return this.contactsService.create(data);
   }
 
@@ -29,13 +31,7 @@ export class ContactsController {
   @Get()
   async findAll(
     @Param()
-    params: {
-      skip?: number;
-      take?: number;
-      cursor?: Prisma.ContactWhereUniqueInput;
-      where?: Prisma.ContactWhereInput;
-      orderBy?: Prisma.ContactOrderByInput;
-    },
+    params: FindAllContactsDto,
   ): Promise<Contact[]> {
     return this.contactsService.findAll(params);
   }
@@ -58,9 +54,7 @@ export class ContactsController {
   }
 
   @Delete(':id')
-  async remove(
-    @Param('id') companyWhereUniqueInput: Prisma.ContactWhereUniqueInput,
-  ) {
-    return this.contactsService.remove(companyWhereUniqueInput);
+  async remove(@Param('id') id: number) {
+    return this.contactsService.remove({ id: Number(id) });
   }
 }

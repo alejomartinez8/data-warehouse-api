@@ -13,6 +13,9 @@ import { Prisma, Company } from '@prisma/client';
 import { RolesGuard } from 'src/auth/guards/role.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
+import { CreateCompanyDto } from './dto/create-company.dto';
+import { UpdateCompanyDto } from './dto/update-company.dto';
+import { FindAllCompaniesDto } from './dto/findAll-company.dto';
 
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -21,7 +24,7 @@ export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
   @Post()
-  async create(@Body() data: Prisma.CompanyCreateInput): Promise<Company> {
+  async create(@Body() data: CreateCompanyDto): Promise<Company> {
     return this.companiesService.create(data);
   }
 
@@ -29,13 +32,7 @@ export class CompaniesController {
   @Get()
   async findAll(
     @Param()
-    params: {
-      skip?: number;
-      take?: number;
-      cursor?: Prisma.CompanyWhereUniqueInput;
-      where?: Prisma.CompanyWhereInput;
-      orderBy?: Prisma.CompanyOrderByInput;
-    },
+    params: FindAllCompaniesDto,
   ): Promise<Company[]> {
     return this.companiesService.findAll(params);
   }
@@ -49,11 +46,11 @@ export class CompaniesController {
   @Put(':id')
   async update(
     @Param('id') companyWhereUniqueInput: Prisma.CompanyWhereUniqueInput,
-    @Body() countryUpdateInput: Prisma.CompanyUpdateInput,
+    @Body() updateCompanyDto: UpdateCompanyDto,
   ) {
     return this.companiesService.update({
       where: companyWhereUniqueInput,
-      data: countryUpdateInput,
+      data: updateCompanyDto,
     });
   }
 

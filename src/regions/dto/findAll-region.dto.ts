@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-export class FindAllDto {
+export class FindAllRegionDto {
   skip?: number;
   take?: number;
   cursor?: Prisma.RegionWhereUniqueInput;

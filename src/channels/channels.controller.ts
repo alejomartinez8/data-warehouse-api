@@ -9,10 +9,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ChannelsService } from './channels.service';
-import { Prisma, Channel } from '@prisma/client';
+import { Channel } from '@prisma/client';
 import { RolesGuard } from 'src/auth/guards/role.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
+import { CreateChannelDto } from './dto/create-channel.dto';
+import { UpdateChannleDto } from './dto/update-channel.dto';
+import { FindAllChannelsDto } from './dto/findAll-channel.dto';
 
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -21,21 +24,15 @@ export class ChannelsController {
   constructor(private readonly channelsService: ChannelsService) {}
 
   @Post()
-  async create(@Body() data: Prisma.ChannelCreateInput): Promise<Channel> {
-    return this.channelsService.create(data);
+  async create(@Body() createChannelDto: CreateChannelDto): Promise<Channel> {
+    return this.channelsService.create(createChannelDto);
   }
 
   @Roles(Role.ADMIN, Role.USER)
   @Get()
   async findAll(
     @Param()
-    params: {
-      skip?: number;
-      take?: number;
-      cursor?: Prisma.ChannelWhereUniqueInput;
-      where?: Prisma.ChannelWhereInput;
-      orderBy?: Prisma.ChannelOrderByInput;
-    },
+    params: FindAllChannelsDto,
   ): Promise<Channel[]> {
     return this.channelsService.findAll(params);
   }
@@ -48,19 +45,17 @@ export class ChannelsController {
 
   @Put(':id')
   async update(
-    @Param('id') companyWhereUniqueInput: Prisma.ChannelWhereUniqueInput,
-    @Body() countryUpdateInput: Prisma.ChannelUpdateInput,
+    @Param('id') id: number,
+    @Body() updateChannelDto: UpdateChannleDto,
   ) {
     return this.channelsService.update({
-      where: companyWhereUniqueInput,
-      data: countryUpdateInput,
+      where: { id: Number(id) },
+      data: updateChannelDto,
     });
   }
 
   @Delete(':id')
-  async remove(
-    @Param('id') companyWhereUniqueInput: Prisma.ChannelWhereUniqueInput,
-  ) {
-    return this.channelsService.remove(companyWhereUniqueInput);
+  async remove(@Param('id') id: number) {
+    return this.channelsService.remove({ id: Number(id) });
   }
 }

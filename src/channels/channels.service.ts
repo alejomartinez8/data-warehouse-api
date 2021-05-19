@@ -1,15 +1,17 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, Channel } from '@prisma/client';
+import { CreateChannelDto } from './dto/create-channel.dto';
+import { FindAllChannelsDto } from './dto/findAll-channel.dto';
 
 @Injectable()
 export class ChannelsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.ChannelCreateInput) {
+  async create(createChannelDto: CreateChannelDto) {
     try {
       const channel = await this.prisma.channel.create({
-        data,
+        data: createChannelDto,
       });
       if (channel) return channel;
     } catch (error) {
@@ -17,13 +19,7 @@ export class ChannelsService {
     }
   }
 
-  async findAll(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.ChannelWhereUniqueInput;
-    where?: Prisma.ChannelWhereInput;
-    orderBy?: Prisma.ChannelOrderByInput;
-  }): Promise<Channel[]> {
+  async findAll(params: FindAllChannelsDto): Promise<Channel[]> {
     try {
       const { skip, take, cursor, where, orderBy } = params;
       return this.prisma.channel.findMany({

@@ -1,34 +1,30 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, Country } from '@prisma/client';
-import { FindAllDto } from '../common/dto/find-all.dto';
+import { FindAllCountriesDto } from './dto/findAll-country.dto';
+import { UpdateCountryDto } from './dto/update-country.dto';
+import { CreateCountryDto } from './dto/create-country.dto';
 
 @Injectable()
 export class CountriesService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: { name: string; region: number }) {
-    const { name, region } = data;
+  async create(data: CreateCountryDto) {
+    const { name, regionId } = data;
 
     try {
       const country = await this.prisma.country.create({
-        data: {
-          name,
-          region: {
-            connect: { id: region },
-          },
-        },
-        include: {
-          region: true,
-        },
+        data: { name, region: { connect: { id: regionId } } },
+        include: { region: true },
       });
+
       if (country) return country;
     } catch (error) {
       throw error;
     }
   }
 
-  async findAll(params: FindAllDto): Promise<Country[]> {
+  async findAll(params: FindAllCountriesDto): Promise<Country[]> {
     try {
       const { skip, take, cursor, where, orderBy } = params;
       return this.prisma.country.findMany({
@@ -58,14 +54,11 @@ export class CountriesService {
 
   async update(params: {
     where: Prisma.CountryWhereUniqueInput;
-    data: Prisma.CountryUpdateInput;
+    data: UpdateCountryDto;
   }): Promise<Country> {
     const { where, data } = params;
 
-    return this.prisma.country.update({
-      data,
-      where,
-    });
+    return this.prisma.country.update({ data, where });
   }
 
   remove(where: Prisma.CountryWhereUniqueInput): Promise<Country> {
