@@ -12,14 +12,6 @@ const user: CreateUserDto = {
   password: 'password',
 };
 
-const userUpdate: UpdateUserDto = {
-  email: 'example@example.com',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  role: Role.USER,
-  password: 'password',
-};
-
 let userPrisma;
 
 describe('Users Service', () => {
@@ -30,7 +22,7 @@ describe('Users Service', () => {
       create: jest.fn().mockResolvedValue(user),
       findMany: jest.fn().mockResolvedValue([user]),
       findUnique: jest.fn().mockResolvedValue(user),
-      update: jest.fn().mockResolvedValue(userUpdate),
+      update: jest.fn().mockResolvedValue(user as UpdateUserDto),
       delete: jest.fn().mockResolvedValue(user),
     };
 
@@ -77,9 +69,9 @@ describe('Users Service', () => {
   it('should update user by id', async () => {
     const fetchedUser = await service.update({
       where: { id: 1 },
-      data: userUpdate,
+      data: user as UpdateUserDto,
     });
-    expect(fetchedUser).toEqual(userUpdate);
+    expect(fetchedUser).toEqual(user as UpdateUserDto);
   });
 
   it('should remove user by id', async () => {

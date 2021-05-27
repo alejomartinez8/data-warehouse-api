@@ -15,9 +15,8 @@ const city: City & {
   country: Country;
 } = {
   id: 1,
-  name: 'City Name',
-  countryId: 1,
   country: { id: 1, name: 'Country', regionId: 1 },
+  ...createCityDto,
 };
 
 describe('CitiesController', () => {
