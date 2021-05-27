@@ -41,9 +41,7 @@ describe('AuthService', () => {
         JwtStrategy,
         {
           provide: JwtService,
-          useValue: {
-            sign: () => 'token',
-          },
+          useValue: { sign: () => 'token' },
         },
       ],
     }).compile();

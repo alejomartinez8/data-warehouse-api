@@ -28,17 +28,17 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('logout')
-  async logout(@Req() req, @Res() res: Response) {
-    res.setHeader('Set-Cookie', this.authService.getCookieForLogout());
-    return res.sendStatus(200);
-  }
-
-  @UseGuards(JwtAuthGuard)
   @Get('profile')
   auth(@Req() req) {
     const user: User = req.user;
     user.password = undefined;
     return user;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('logout')
+  async logout(@Req() req, @Res() res: Response) {
+    res.setHeader('Set-Cookie', this.authService.getCookieForLogout());
+    return res.sendStatus(200);
   }
 }
