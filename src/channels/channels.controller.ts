@@ -14,7 +14,7 @@ import { RolesGuard } from 'src/auth/guards/role.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
 import { CreateChannelDto } from './dto/create-channel.dto';
-import { UpdateChannleDto } from './dto/update-channel.dto';
+import { UpdateChannelDto } from './dto/update-channel.dto';
 import { FindAllChannelsDto } from './dto/findAll-channel.dto';
 
 @Roles(Role.ADMIN)
@@ -46,7 +46,7 @@ export class ChannelsController {
   @Put(':id')
   async update(
     @Param('id') id: number,
-    @Body() updateChannelDto: UpdateChannleDto,
+    @Body() updateChannelDto: UpdateChannelDto,
   ) {
     return this.channelsService.update({
       where: { id: Number(id) },

@@ -15,7 +15,7 @@ export class CountriesService {
     try {
       const country = await this.prisma.country.create({
         data: { name, region: { connect: { id: regionId } } },
-        include: { region: true },
+        include: { region: true, cities: true },
       });
 
       if (country) return country;
@@ -24,7 +24,7 @@ export class CountriesService {
     }
   }
 
-  async findAll(params: FindAllCountriesDto): Promise<Country[]> {
+  async findAll(params: FindAllCountriesDto) {
     try {
       const { skip, take, cursor, where, orderBy } = params;
       return this.prisma.country.findMany({
@@ -45,6 +45,7 @@ export class CountriesService {
   ): Promise<Country> {
     const country = await this.prisma.country.findUnique({
       where: countryWhereUniqueInput,
+      include: { region: true, cities: true },
     });
 
     if (country) return country;
@@ -55,10 +56,14 @@ export class CountriesService {
   async update(params: {
     where: Prisma.CountryWhereUniqueInput;
     data: UpdateCountryDto;
-  }): Promise<Country> {
+  }) {
     const { where, data } = params;
 
-    return this.prisma.country.update({ data, where });
+    return this.prisma.country.update({
+      data,
+      where,
+      include: { region: true, cities: true },
+    });
   }
 
   remove(where: Prisma.CountryWhereUniqueInput): Promise<Country> {

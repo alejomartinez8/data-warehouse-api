@@ -44,7 +44,7 @@ export class CountriesController {
   async update(
     @Param('id') id: number,
     @Body() updateCountryDto: UpdateCountryDto,
-  ) {
+  ): Promise<Country> {
     return this.countriesService.update({
       where: { id: Number(id) },
       data: updateCountryDto,
@@ -52,7 +52,7 @@ export class CountriesController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number) {
+  async remove(@Param('id') id: number): Promise<Country> {
     return this.countriesService.remove({ id: Number(id) });
   }
 }
