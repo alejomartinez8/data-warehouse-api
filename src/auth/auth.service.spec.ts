@@ -1,20 +1,32 @@
-import { mockedJwtService } from './../utils/mocks/jwt.service';
 import { PrismaModule } from './../prisma/prisma.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { PassportModule } from '@nestjs/passport';
-import { UsersModule } from './../users/users.module';
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
+import { UsersService } from './../users/users.service';
+import * as bcrypt from 'bcrypt';
+import { User, Role } from '@prisma/client';
+
+jest.mock('bcrypt');
+
+const mockedUser: User = {
+  id: 1,
+  email: 'example@example.com',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  role: Role.USER,
+  password: undefined,
+};
 
 describe('AuthService', () => {
-  let service: AuthService;
+  let authService: AuthService;
+  let usersServices: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        UsersModule,
         PassportModule,
         PrismaModule,
         JwtModule.register({
@@ -23,24 +35,71 @@ describe('AuthService', () => {
         }),
       ],
       providers: [
+        UsersService,
         AuthService,
         LocalStrategy,
         JwtStrategy,
-        { provide: JwtService, useValue: mockedJwtService },
+        {
+          provide: JwtService,
+          useValue: {
+            sign: () => 'token',
+          },
+        },
       ],
     }).compile();
 
-    service = module.get<AuthService>(AuthService);
+    usersServices = module.get<UsersService>(UsersService);
+    authService = module.get<AuthService>(AuthService);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(usersServices).toBeDefined();
+    expect(authService).toBeDefined();
   });
 
-  describe('Create a cookie', () => {
-    it('should return a string', () => {
-      const userId = 1;
-      expect(typeof service.getCookieWithJwtToken(userId)).toEqual('string');
+  describe('Validating user', () => {
+    it('should return an user with valid password', async () => {
+      jest
+        .spyOn(usersServices, 'findOne')
+        .mockImplementation(async ({}) => mockedUser);
+
+      // mock valid password
+      jest.spyOn(bcrypt, 'compare').mockImplementation(async () => true);
+
+      const user = await authService.validateUser(
+        'example@example.com',
+        'password',
+      );
+
+      expect(user).toEqual(mockedUser);
     });
+
+    it('should throw an Error with invalid password', async () => {
+      jest
+        .spyOn(usersServices, 'findOne')
+        .mockImplementation(async ({}) => mockedUser);
+
+      // mock valid password
+      jest.spyOn(bcrypt, 'compare').mockImplementation(async () => false);
+
+      await expect(
+        authService.validateUser('example@example.com', 'password'),
+      ).rejects.toThrow();
+    });
+  });
+
+  it('should return Cookie With Jwt Token', async () => {
+    const cookie = await authService.getCookieWithJwtToken(1);
+    expect(cookie).toEqual("user=token; HttpOnly; Path=/; Max-Age='1d'");
+  });
+
+  it('should return Cookie void', async () => {
+    const cookie = await authService.getCookieForLogout();
+    expect(cookie).toEqual('user=; HttpOnly; Path=/; Max-Age=0');
+  });
+
+  it('should return a token', async () => {
+    const token = await authService.getJwtToken(mockedUser);
+    expect(token).toEqual({ token: 'token' });
   });
 });
