@@ -43,6 +43,7 @@ describe('CitiesService', () => {
   it('should update a city by id', async () => {
     const mockedCity: UpdateCityDto = {
       name: 'City Update',
+      countryId: 1,
     };
 
     const cityUpdated = await service.update({

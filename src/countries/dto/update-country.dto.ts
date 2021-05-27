@@ -9,5 +9,5 @@ export class UpdateCountryDto extends PartialType(CreateCountryDto) {
 
   @IsOptional()
   @IsNumber()
-  regionId: number;
+  regionId?: number;
 }
