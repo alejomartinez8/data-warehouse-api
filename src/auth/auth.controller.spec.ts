@@ -1,5 +1,4 @@
 import { UsersService } from './../users/users.service';
-import { PrismaService } from './../prisma/prisma.services';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Test, TestingModule } from '@nestjs/testing';

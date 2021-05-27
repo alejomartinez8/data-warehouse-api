@@ -12,10 +12,7 @@ describe('Users Service', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
-        {
-          provide: PrismaService,
-          useValue: mockPrismaService,
-        },
+        { provide: PrismaService, useValue: mockPrismaService },
       ],
     }).compile();
 

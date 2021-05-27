@@ -1,5 +1,10 @@
-import { User, Role } from '@prisma/client';
+import { User, Role, Channel } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+
+export const channel: Channel = {
+  id: 1,
+  name: 'Channel Name',
+};
 
 export const user: User = {
   id: 1,
@@ -11,6 +16,13 @@ export const user: User = {
 };
 
 const mockPrismaService = {
+  channel: {
+    create: jest.fn().mockResolvedValue(channel),
+    findMany: jest.fn().mockResolvedValue([channel]),
+    findUnique: jest.fn().mockResolvedValue(channel),
+    update: jest.fn().mockResolvedValue(channel),
+    delete: jest.fn().mockResolvedValue(channel),
+  },
   user: {
     create: jest.fn().mockResolvedValue(user),
     findMany: jest.fn().mockResolvedValue([user]),
