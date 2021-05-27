@@ -1,4 +1,4 @@
-import { User, Role, Channel, City, Country } from '@prisma/client';
+import { User, Role, Channel, City, Country, Region } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 export const user: User = {
@@ -10,9 +10,14 @@ export const user: User = {
   password: bcrypt.hashSync('password', 10),
 };
 
+export const region: Region = {
+  id: 1,
+  name: 'Region Name',
+};
+
 export const country: Country = {
   id: 1,
-  name: 'City Name',
+  name: 'Country Name',
   regionId: 1,
 };
 
@@ -34,6 +39,13 @@ const mockPrismaService = {
     findUnique: jest.fn().mockResolvedValue(channel),
     update: jest.fn().mockResolvedValue(channel),
     delete: jest.fn().mockResolvedValue(channel),
+  },
+  region: {
+    create: jest.fn().mockResolvedValue(region),
+    findMany: jest.fn().mockResolvedValue([region]),
+    findUnique: jest.fn().mockResolvedValue(region),
+    update: jest.fn().mockResolvedValue(region),
+    delete: jest.fn().mockResolvedValue(region),
   },
   country: {
     create: jest.fn().mockResolvedValue(country),
