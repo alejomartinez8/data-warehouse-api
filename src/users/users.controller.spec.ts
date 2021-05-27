@@ -43,44 +43,47 @@ describe('UsersController', () => {
   });
 
   describe('create', () => {
-    it('should return an user created', async () => {
+    it('should return an user created', () => {
       jest.spyOn(usersService, 'create').mockImplementation(async () => user);
-      await expect(usersController.create(createUserDto)).resolves.toEqual(
+      return expect(usersController.create(createUserDto)).resolves.toEqual(
         user,
       );
     });
   });
 
   describe('findAll', () => {
-    it('should return an array of users', async () => {
+    it('should return an array of users', () => {
       jest
         .spyOn(usersService, 'findAll')
         .mockImplementation(async () => [user]);
 
-      await expect(usersController.findAll({})).resolves.toEqual([user]);
+      return expect(usersController.findAll({})).resolves.toEqual([user]);
     });
   });
 
   describe('findOne', () => {
-    it('should return an user with an Id', async () => {
+    it('should return an user with an Id', () => {
       jest.spyOn(usersService, 'findOne').mockImplementation(async () => user);
-      await expect(usersController.findOne(1)).resolves.toEqual(user);
+
+      return expect(usersController.findOne(1)).resolves.toEqual(user);
     });
   });
 
   describe('findOne', () => {
-    it('should update and return an user with an Id', async () => {
+    it('should update and return an user with an Id', () => {
       jest.spyOn(usersService, 'update').mockImplementation(async () => user);
-      await expect(
+
+      return expect(
         usersController.update(1, user as UpdateUserDto),
       ).resolves.toEqual(user);
     });
   });
 
   describe('remove', () => {
-    it('should delete and return an user with an Id', async () => {
+    it('should delete and return an user with an Id', () => {
       jest.spyOn(usersService, 'remove').mockImplementation(async () => user);
-      await expect(usersController.remove(1)).resolves.toEqual(user);
+
+      return expect(usersController.remove(1)).resolves.toEqual(user);
     });
   });
 });

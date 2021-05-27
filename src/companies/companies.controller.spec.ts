@@ -40,52 +40,58 @@ describe('CompaniesController', () => {
   });
 
   describe('create', () => {
-    it('should return a company created', async () => {
+    it('should return a company created', () => {
       jest
         .spyOn(companiesService, 'create')
         .mockImplementation(async () => company);
-      await expect(
+
+      return expect(
         companiesController.create(createCompanyDto),
       ).resolves.toEqual(company);
     });
   });
 
   describe('findAll', () => {
-    it('should return an array of companies', async () => {
+    it('should return an array of companies', () => {
       jest
         .spyOn(companiesService, 'findAll')
         .mockImplementation(async () => [company]);
 
-      await expect(companiesController.findAll({})).resolves.toEqual([company]);
+      return expect(companiesController.findAll({})).resolves.toEqual([
+        company,
+      ]);
     });
   });
 
   describe('findOne', () => {
-    it('should return a company with an Id', async () => {
+    it('should return a company with an Id', () => {
       jest
         .spyOn(companiesService, 'findOne')
         .mockImplementation(async () => company);
-      await expect(companiesController.findOne(1)).resolves.toEqual(company);
+
+      return expect(companiesController.findOne(1)).resolves.toEqual(company);
     });
   });
 
   describe('update', () => {
-    it('should update and return a company with an Id', async () => {
+    it('should update and return a company with an Id', () => {
       jest
         .spyOn(companiesService, 'update')
         .mockImplementation(async () => company);
-      await expect(
+
+      return expect(
         companiesController.update({ id: 1 }, company as UpdateCompanyDto),
       ).resolves.toEqual(company);
     });
   });
 
   describe('remove', () => {
-    it('should delete and return a company with an Id', async () => {
+    it('should delete and return a company with an Id', () => {
       jest
         .spyOn(companiesService, 'remove')
         .mockImplementation(async () => company);
-      await expect(companiesController.remove({ id: 1 })).resolves.toEqual(
+
+      return expect(companiesController.remove({ id: 1 })).resolves.toEqual(
         company,
       );
     });

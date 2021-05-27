@@ -39,52 +39,56 @@ describe('CountriesController', () => {
   });
 
   describe('create', () => {
-    it('should return a country created', async () => {
+    it('should return a country created', () => {
       jest
         .spyOn(countriesService, 'create')
         .mockImplementation(async () => country);
-      await expect(
+      return expect(
         countriesController.create(createCountryDto),
       ).resolves.toEqual(country);
     });
   });
 
   describe('findAll', () => {
-    it('should return an array of countries', async () => {
+    it('should return an array of countries', () => {
       jest
         .spyOn(countriesService, 'findAll')
         .mockImplementation(async () => [country]);
 
-      await expect(countriesController.findAll({})).resolves.toEqual([country]);
+      return expect(countriesController.findAll({})).resolves.toEqual([
+        country,
+      ]);
     });
   });
 
   describe('findOne', () => {
-    it('should return a country with an Id', async () => {
+    it('should return a country with an Id', () => {
       jest
         .spyOn(countriesService, 'findOne')
         .mockImplementation(async () => country);
-      await expect(countriesController.findOne(1)).resolves.toEqual(country);
+      return expect(countriesController.findOne(1)).resolves.toEqual(country);
     });
   });
 
   describe('update', () => {
-    it('should update and return a country with an Id', async () => {
+    it('should update and return a country with an Id', () => {
       jest
         .spyOn(countriesService, 'update')
         .mockImplementation(async () => country);
-      await expect(
+
+      return expect(
         countriesController.update(1, country as UpdateCountryDto),
       ).resolves.toEqual(country);
     });
   });
 
   describe('remove', () => {
-    it('should delete and return a country with an Id', async () => {
+    it('should delete and return a country with an Id', () => {
       jest
         .spyOn(countriesService, 'remove')
         .mockImplementation(async () => country as Country);
-      await expect(countriesController.remove(1)).resolves.toEqual(country);
+
+      return expect(countriesController.remove(1)).resolves.toEqual(country);
     });
   });
 });

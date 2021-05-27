@@ -44,52 +44,56 @@ describe('ContactsController', () => {
   });
 
   describe('create', () => {
-    it('should return a contact created', async () => {
+    it('should return a contact created', () => {
       jest
         .spyOn(contactsService, 'create')
         .mockImplementation(async () => contact);
-      await expect(
+
+      return expect(
         contactsController.create(createContactDto),
       ).resolves.toEqual(contact);
     });
   });
 
   describe('findAll', () => {
-    it('should return an array of contacts', async () => {
+    it('should return an array of contacts', () => {
       jest
         .spyOn(contactsService, 'findAll')
         .mockImplementation(async () => [contact]);
 
-      await expect(contactsController.findAll({})).resolves.toEqual([contact]);
+      return expect(contactsController.findAll({})).resolves.toEqual([contact]);
     });
   });
 
   describe('findOne', () => {
-    it('should return a contact with an Id', async () => {
+    it('should return a contact with an Id', () => {
       jest
         .spyOn(contactsService, 'findOne')
         .mockImplementation(async () => contact);
-      await expect(contactsController.findOne(1)).resolves.toEqual(contact);
+
+      return expect(contactsController.findOne(1)).resolves.toEqual(contact);
     });
   });
 
   describe('update', () => {
-    it('should update and return a contact with an Id', async () => {
+    it('should update and return a contact with an Id', () => {
       jest
         .spyOn(contactsService, 'update')
         .mockImplementation(async () => contact);
-      await expect(
+
+      return expect(
         contactsController.update({ id: 1 }, contact as UpdateContactDto),
       ).resolves.toEqual(contact);
     });
   });
 
   describe('remove', () => {
-    it('should delete and return a contact with an Id', async () => {
+    it('should delete and return a contact with an Id', () => {
       jest
         .spyOn(contactsService, 'remove')
         .mockImplementation(async () => contact as Contact);
-      await expect(contactsController.remove(1)).resolves.toEqual(contact);
+
+      return expect(contactsController.remove(1)).resolves.toEqual(contact);
     });
   });
 });

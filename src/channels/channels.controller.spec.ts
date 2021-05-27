@@ -35,52 +35,54 @@ describe('ChannelsController', () => {
   });
 
   describe('create', () => {
-    it('should return a channel created', async () => {
+    it('should return a channel created', () => {
       jest
         .spyOn(usersService, 'create')
         .mockImplementation(async () => channel);
-      await expect(usersController.create(createChannelDto)).resolves.toEqual(
+      return expect(usersController.create(createChannelDto)).resolves.toEqual(
         channel,
       );
     });
   });
 
   describe('findAll', () => {
-    it('should return an array of channels', async () => {
+    it('should return an array of channels', () => {
       jest
         .spyOn(usersService, 'findAll')
         .mockImplementation(async () => [channel]);
 
-      await expect(usersController.findAll({})).resolves.toEqual([channel]);
+      return expect(usersController.findAll({})).resolves.toEqual([channel]);
     });
   });
 
   describe('findOne', () => {
-    it('should return a channel with an Id', async () => {
+    it('should return a channel with an Id', () => {
       jest
         .spyOn(usersService, 'findOne')
         .mockImplementation(async () => channel);
-      await expect(usersController.findOne(1)).resolves.toEqual(channel);
+      return expect(usersController.findOne(1)).resolves.toEqual(channel);
     });
   });
 
   describe('findOne', () => {
-    it('should update and return a channel with an Id', async () => {
+    it('should update and return a channel with an Id', () => {
       jest
         .spyOn(usersService, 'update')
         .mockImplementation(async () => channel);
-      await expect(
+
+      return expect(
         usersController.update(1, channel as UpdateChannelDto),
       ).resolves.toEqual(channel);
     });
   });
 
   describe('remove', () => {
-    it('should delete and return a channel with an Id', async () => {
+    it('should delete and return a channel with an Id', () => {
       jest
         .spyOn(usersService, 'remove')
         .mockImplementation(async () => channel);
-      await expect(usersController.remove(1)).resolves.toEqual(channel);
+
+      return expect(usersController.remove(1)).resolves.toEqual(channel);
     });
   });
 });

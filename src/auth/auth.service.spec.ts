@@ -55,35 +55,30 @@ describe('AuthService', () => {
     expect(authService).toBeDefined();
   });
 
-  describe('Validating user', () => {
-    it('should return an user with valid password', async () => {
-      jest
-        .spyOn(usersServices, 'findOne')
-        .mockImplementation(async ({}) => mockedUser);
+  it('Validating user should return an user with valid password', () => {
+    jest
+      .spyOn(usersServices, 'findOne')
+      .mockImplementation(async ({}) => mockedUser);
 
-      // mock valid password
-      jest.spyOn(bcrypt, 'compare').mockImplementation(async () => true);
+    // mock valid password
+    jest.spyOn(bcrypt, 'compare').mockImplementation(async () => true);
 
-      const user = await authService.validateUser(
-        'example@example.com',
-        'password',
-      );
+    return expect(
+      authService.validateUser('example@example.com', 'password'),
+    ).resolves.toEqual(mockedUser);
+  });
 
-      expect(user).toEqual(mockedUser);
-    });
+  it('Validation user should throw an Error with invalid password', () => {
+    jest
+      .spyOn(usersServices, 'findOne')
+      .mockImplementation(async ({}) => mockedUser);
 
-    it('should throw an Error with invalid password', async () => {
-      jest
-        .spyOn(usersServices, 'findOne')
-        .mockImplementation(async ({}) => mockedUser);
+    // mock valid password
+    jest.spyOn(bcrypt, 'compare').mockImplementation(async () => false);
 
-      // mock valid password
-      jest.spyOn(bcrypt, 'compare').mockImplementation(async () => false);
-
-      await expect(
-        authService.validateUser('example@example.com', 'password'),
-      ).rejects.toThrow();
-    });
+    return expect(
+      authService.validateUser('example@example.com', 'password'),
+    ).rejects.toThrow();
   });
 
   it('should return Cookie With Jwt Token', async () => {

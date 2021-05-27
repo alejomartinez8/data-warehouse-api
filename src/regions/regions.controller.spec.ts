@@ -35,52 +35,56 @@ describe('RegionsController', () => {
   });
 
   describe('create', () => {
-    it('should return a region created', async () => {
+    it('should return a region created', () => {
       jest
         .spyOn(regionsService, 'create')
         .mockImplementation(async () => region);
-      await expect(regionsController.create(createRegionDto)).resolves.toEqual(
+
+      return expect(regionsController.create(createRegionDto)).resolves.toEqual(
         region,
       );
     });
   });
 
   describe('findAll', () => {
-    it('should return an array of regions', async () => {
+    it('should return an array of regions', () => {
       jest
         .spyOn(regionsService, 'findAll')
         .mockImplementation(async () => [region]);
 
-      await expect(regionsController.findAll({})).resolves.toEqual([region]);
+      return expect(regionsController.findAll({})).resolves.toEqual([region]);
     });
   });
 
   describe('findOne', () => {
-    it('should return a region with an Id', async () => {
+    it('should return a region with an Id', () => {
       jest
         .spyOn(regionsService, 'findOne')
         .mockImplementation(async () => region);
-      await expect(regionsController.findOne(1)).resolves.toEqual(region);
+
+      return expect(regionsController.findOne(1)).resolves.toEqual(region);
     });
   });
 
   describe('update', () => {
-    it('should update and return a region with an Id', async () => {
+    it('should update and return a region with an Id', () => {
       jest
         .spyOn(regionsService, 'update')
         .mockImplementation(async () => region);
-      await expect(
+
+      return expect(
         regionsController.update(1, region as UpdateRegionDto),
       ).resolves.toEqual(region);
     });
   });
 
   describe('remove', () => {
-    it('should delete and return a region with an Id', async () => {
+    it('should delete and return a region with an Id', () => {
       jest
         .spyOn(regionsService, 'remove')
         .mockImplementation(async () => region);
-      await expect(regionsController.remove(1)).resolves.toEqual(region);
+
+      return expect(regionsController.remove(1)).resolves.toEqual(region);
     });
   });
 });

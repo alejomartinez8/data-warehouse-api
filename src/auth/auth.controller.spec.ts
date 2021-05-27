@@ -69,7 +69,7 @@ describe('AuthController', () => {
     cookie = response.headers['set-cookie'];
   });
 
-  it('should return profile with cookie', async () => {
+  it('should return profile with cookie', () => {
     return request(app.getHttpServer())
       .get('/auth/profile')
       .set('Cookie', cookie)

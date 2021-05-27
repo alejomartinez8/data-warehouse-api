@@ -39,44 +39,48 @@ describe('CitiesController', () => {
   });
 
   describe('create', () => {
-    it('should return a city created', async () => {
+    it('should return a city created', () => {
       jest.spyOn(citiesService, 'create').mockImplementation(async () => city);
-      await expect(citiesController.create(createCityDto)).resolves.toEqual(
+
+      return expect(citiesController.create(createCityDto)).resolves.toEqual(
         city,
       );
     });
   });
 
   describe('findAll', () => {
-    it('should return an array of cities', async () => {
+    it('should return an array of cities', () => {
       jest
         .spyOn(citiesService, 'findAll')
         .mockImplementation(async () => [city]);
 
-      await expect(citiesController.findAll({})).resolves.toEqual([city]);
+      return expect(citiesController.findAll({})).resolves.toEqual([city]);
     });
   });
 
   describe('findOne', () => {
-    it('should return a city with an Id', async () => {
+    it('should return a city with an Id', () => {
       jest.spyOn(citiesService, 'findOne').mockImplementation(async () => city);
-      await expect(citiesController.findOne(1)).resolves.toEqual(city);
+
+      return expect(citiesController.findOne(1)).resolves.toEqual(city);
     });
   });
 
   describe('update', () => {
-    it('should update and return a city with an Id', async () => {
+    it('should update and return a city with an Id', () => {
       jest.spyOn(citiesService, 'update').mockImplementation(async () => city);
-      await expect(
+
+      return expect(
         citiesController.update(1, city as UpdateCityDto),
       ).resolves.toEqual(city);
     });
   });
 
   describe('remove', () => {
-    it('should delete and return a city with an Id', async () => {
+    it('should delete and return a city with an Id', () => {
       jest.spyOn(citiesService, 'remove').mockImplementation(async () => city);
-      await expect(citiesController.remove(1)).resolves.toEqual(city);
+
+      return expect(citiesController.remove(1)).resolves.toEqual(city);
     });
   });
 });
