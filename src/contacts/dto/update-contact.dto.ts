@@ -1,3 +1,4 @@
+import { Decimal } from '@prisma/client/runtime';
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateContactDto } from './create-contact.dto';
 import {
@@ -31,7 +32,7 @@ export class UpdateContactDto extends PartialType(CreateContactDto) {
 
   @IsNumber()
   @IsOptional()
-  interest?: number;
+  interest?: Decimal;
 
   @IsNumber()
   @IsOptional()

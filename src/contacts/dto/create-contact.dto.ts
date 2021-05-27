@@ -1,3 +1,4 @@
+import { Decimal } from '@prisma/client/runtime';
 import {
   IsEmail,
   IsString,
@@ -26,7 +27,7 @@ export class CreateContactDto {
   address: string;
 
   @IsNumber()
-  interest: number;
+  interest: Decimal;
 
   @IsNumber()
   cityId: number;
