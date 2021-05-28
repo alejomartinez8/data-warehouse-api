@@ -15,6 +15,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { FindAllContactsDto } from './dto/findAll-contact.dto';
+import { UpdateContactDto } from './dto/update-contact.dto';
 
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -45,7 +46,7 @@ export class ContactsController {
   @Put(':id')
   async update(
     @Param('id') companyWhereUniqueInput: Prisma.ContactWhereUniqueInput,
-    @Body() countryUpdateInput: Prisma.ContactUpdateInput,
+    @Body() countryUpdateInput: UpdateContactDto,
   ) {
     return this.contactsService.update({
       where: companyWhereUniqueInput,
