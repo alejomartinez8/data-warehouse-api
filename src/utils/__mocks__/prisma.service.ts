@@ -1,4 +1,14 @@
-import { User, Role, Channel, City, Country, Region } from '@prisma/client';
+import {
+  User,
+  Role,
+  Channel,
+  City,
+  Country,
+  Region,
+  Contact,
+  Company,
+} from '@prisma/client';
+import { Decimal } from '@prisma/client/runtime';
 import * as bcrypt from 'bcrypt';
 
 export const user: User = {
@@ -8,6 +18,27 @@ export const user: User = {
   lastName: 'lastName',
   role: Role.USER,
   password: bcrypt.hashSync('password', 10),
+};
+
+export const contact: Contact = {
+  id: 1,
+  firstName: 'Contact firstName',
+  lastName: 'Contact lastName',
+  address: 'Contact address',
+  email: 'example@example.com',
+  interest: new Decimal('0.5'),
+  position: 'Contact position',
+  cityId: 0.8,
+  companyId: 1,
+};
+
+export const company: Company = {
+  id: 1,
+  name: 'Company Name',
+  address: 'Company Address',
+  email: 'Company Email',
+  phone: 'Company Phone',
+  cityId: 1,
 };
 
 export const region: Region = {
@@ -32,42 +63,22 @@ export const channel: Channel = {
   name: 'Channel Name',
 };
 
+const mockCRUD = (entity: any) => ({
+  create: jest.fn().mockResolvedValue(entity),
+  findMany: jest.fn().mockResolvedValue([entity]),
+  findUnique: jest.fn().mockResolvedValue(entity),
+  update: jest.fn().mockResolvedValue(entity),
+  delete: jest.fn().mockResolvedValue(entity),
+});
+
 const mockPrismaService = {
-  channel: {
-    create: jest.fn().mockResolvedValue(channel),
-    findMany: jest.fn().mockResolvedValue([channel]),
-    findUnique: jest.fn().mockResolvedValue(channel),
-    update: jest.fn().mockResolvedValue(channel),
-    delete: jest.fn().mockResolvedValue(channel),
-  },
-  region: {
-    create: jest.fn().mockResolvedValue(region),
-    findMany: jest.fn().mockResolvedValue([region]),
-    findUnique: jest.fn().mockResolvedValue(region),
-    update: jest.fn().mockResolvedValue(region),
-    delete: jest.fn().mockResolvedValue(region),
-  },
-  country: {
-    create: jest.fn().mockResolvedValue(country),
-    findMany: jest.fn().mockResolvedValue([country]),
-    findUnique: jest.fn().mockResolvedValue(country),
-    update: jest.fn().mockResolvedValue(country),
-    delete: jest.fn().mockResolvedValue(country),
-  },
-  city: {
-    create: jest.fn().mockResolvedValue(city),
-    findMany: jest.fn().mockResolvedValue([city]),
-    findUnique: jest.fn().mockResolvedValue(city),
-    update: jest.fn().mockResolvedValue(city),
-    delete: jest.fn().mockResolvedValue(city),
-  },
-  user: {
-    create: jest.fn().mockResolvedValue(user),
-    findMany: jest.fn().mockResolvedValue([user]),
-    findUnique: jest.fn().mockResolvedValue(user),
-    update: jest.fn().mockResolvedValue(user),
-    delete: jest.fn().mockResolvedValue(user),
-  },
+  region: mockCRUD(region),
+  country: mockCRUD(country),
+  city: mockCRUD(city),
+  user: mockCRUD(user),
+  contact: mockCRUD(contact),
+  channel: mockCRUD(channel),
+  company: mockCRUD(company),
 };
 
 export default mockPrismaService;

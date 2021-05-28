@@ -1,3 +1,4 @@
+import { UpdateContactDto } from './dto/update-contact.dto';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, Contact } from '@prisma/client';
@@ -67,7 +68,7 @@ export class ContactsService {
 
   async update(params: {
     where: Prisma.ContactWhereUniqueInput;
-    data: Prisma.ContactUpdateInput;
+    data: UpdateContactDto;
   }): Promise<Contact> {
     const { where, data } = params;
 
