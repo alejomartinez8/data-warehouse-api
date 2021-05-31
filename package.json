@@ -20,7 +20,16 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prepare": "husky install",
-    "husky": "npx pretty-quick --staged && npm run lint"
+    "husky": "npx pretty-quick --staged && npm run lint",
+    "migrate:dev": "npx prisma migrate dev",
+    "prisma:studio": "npx prisma studio",
+    "prisma:generate": "npx prisma generate",
+    "prisma:seed": "npx prisma db seed --preview-feature",
+    "postinstall": "npm run prisma:generate",
+    "start:db": "npm run migrate:up && npm run prisma:generate && npm run prisma:seed",
+    "docker:db": "docker-compose -f docker-compose.db.yml up -d",
+    "docker": "docker-compose up -d",
+    "docker:build": "docker-compose build"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.15",
