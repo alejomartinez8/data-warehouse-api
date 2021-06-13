@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from './../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import * as cookie from 'cookie';
 import { User } from '@prisma/client';
 
 @Injectable()
@@ -37,7 +38,20 @@ export class AuthService {
   public getCookieWithJwtToken(id: number) {
     const payload = { sub: id };
     const token = this.jwtService.sign(payload);
-    return `user=${token}; HttpOnly; Path=/; Max-Age='1d'`;
+
+    const dev = process.env.NODE_ENV !== 'production';
+
+    const _cookie = String(
+      cookie.serialize('user', token, {
+        httpOnly: true,
+        sameSite: dev ? 'lax' : 'none',
+        secure: !dev,
+        maxAge: 3600,
+        path: '/',
+      }),
+    );
+
+    return _cookie;
   }
 
   public getCookieForLogout() {

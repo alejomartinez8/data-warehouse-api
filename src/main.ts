@@ -7,20 +7,14 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 const whitelist = [
   'http://localhost:3000',
   'https://data-warehouse-app.vercel.app',
+  'https://data-warehouse-app.netlify.app',
 ];
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
-    origin: function (origin, callback) {
-      console.log(origin);
-      if (!origin || whitelist.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin: whitelist,
     allowedHeaders:
       'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
     methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
