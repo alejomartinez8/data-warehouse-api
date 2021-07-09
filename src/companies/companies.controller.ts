@@ -28,7 +28,7 @@ export class CompaniesController {
     return this.companiesService.create(data);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.BASIC)
   @Get()
   async findAll(
     @Param()
@@ -37,7 +37,7 @@ export class CompaniesController {
     return this.companiesService.findAll(params);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.BASIC)
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return this.companiesService.findOne({ id: +id });

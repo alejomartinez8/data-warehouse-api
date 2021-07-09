@@ -28,13 +28,13 @@ export class CitiesController {
     return this.citiesService.create(createCityDto);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.BASIC)
   @Get()
   async findAll(@Param() params: FindAllCitiesDto): Promise<City[]> {
     return this.citiesService.findAll(params);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.BASIC)
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return this.citiesService.findOne({ id: Number(id) });

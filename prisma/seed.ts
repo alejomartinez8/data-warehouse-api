@@ -22,7 +22,7 @@ async function main() {
       email: 'user@example.com',
       firstName: 'Basic',
       lastName: 'User',
-      role: 'USER',
+      role: 'BASIC',
       password: await bcrypt.hash('12345678', 10),
     },
   });

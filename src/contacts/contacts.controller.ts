@@ -28,7 +28,7 @@ export class ContactsController {
     return this.contactsService.create(data);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.BASIC)
   @Get()
   async findAll(
     @Param()
@@ -37,7 +37,7 @@ export class ContactsController {
     return this.contactsService.findAll(params);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.BASIC)
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return this.contactsService.findOne({ id: +id });

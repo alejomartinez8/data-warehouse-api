@@ -11,7 +11,7 @@ generator client {
 }
 
 enum Role {
-  USER
+  BASIC
   ADMIN
 }
 
@@ -20,7 +20,7 @@ model User {
   email     String @unique
   firstName String
   lastName  String
-  role      Role   @default(USER)
+  role      Role   @default(BASIC)
   password  String
 }
 

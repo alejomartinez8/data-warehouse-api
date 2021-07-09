@@ -28,7 +28,7 @@ describe('Users Service', () => {
       email: 'example@example.com',
       firstName: 'firstName',
       lastName: 'lastName',
-      role: Role.USER,
+      role: Role.BASIC,
       password: 'password',
     };
 
@@ -50,7 +50,7 @@ describe('Users Service', () => {
       email: 'example@example.com',
       firstName: 'firstName',
       lastName: 'lastName',
-      role: Role.USER,
+      role: Role.BASIC,
       password: 'password',
     };
 

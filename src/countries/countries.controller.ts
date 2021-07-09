@@ -28,13 +28,13 @@ export class CountriesController {
     return this.countriesService.create(createCountryDto);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.BASIC)
   @Get()
   async findAll(@Param() params: FindAllCountriesDto): Promise<Country[]> {
     return this.countriesService.findAll(params);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.BASIC)
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return this.countriesService.findOne({ id: +id });

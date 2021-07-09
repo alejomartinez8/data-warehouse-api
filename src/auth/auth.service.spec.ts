@@ -16,7 +16,7 @@ const mockedUser: User = {
   email: 'example@example.com',
   firstName: 'firstName',
   lastName: 'lastName',
-  role: Role.USER,
+  role: Role.BASIC,
   password: undefined,
 };
 

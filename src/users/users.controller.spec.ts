@@ -10,7 +10,7 @@ const createUserDto: CreateUserDto = {
   email: 'example@example.com',
   firstName: 'firstName',
   lastName: 'lastName',
-  role: Role.USER,
+  role: Role.BASIC,
   password: 'password',
 };
 
@@ -19,7 +19,7 @@ const user: User = {
   email: 'example@example.com',
   firstName: 'firstName',
   lastName: 'lastName',
-  role: Role.USER,
+  role: Role.BASIC,
   password: 'password',
 };
 

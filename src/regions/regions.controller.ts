@@ -28,13 +28,13 @@ export class RegionsController {
     return this.regionsService.create(createRegionDto);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.BASIC)
   @Get()
   async findAll(@Param() params: FindAllRegionDto): Promise<Region[]> {
     return this.regionsService.findAll(params);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.BASIC)
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return this.regionsService.findOne({ id: +id });

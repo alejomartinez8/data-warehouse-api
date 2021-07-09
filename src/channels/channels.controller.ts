@@ -28,7 +28,7 @@ export class ChannelsController {
     return this.channelsService.create(createChannelDto);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.BASIC)
   @Get()
   async findAll(
     @Param()
@@ -37,7 +37,7 @@ export class ChannelsController {
     return this.channelsService.findAll(params);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.BASIC)
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return this.channelsService.findOne({ id: +id });
