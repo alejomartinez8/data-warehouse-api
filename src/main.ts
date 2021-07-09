@@ -7,6 +7,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 const whitelist = [
   'http://localhost:3000',
   'https://data-warehouse-am.herokuapp.com',
+  'https://data-warehouse-app.vercel.app',
 ];
 
 async function bootstrap() {
