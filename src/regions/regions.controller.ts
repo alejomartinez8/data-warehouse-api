@@ -17,8 +17,8 @@ import { UpdateRegionDto } from './dto/update-region.dto';
 import { CreateRegionDto } from './dto/create-region.dto';
 import { FindAllRegionDto } from './dto/findAll-region.dto';
 
-@Roles(Role.ADMIN)
-@UseGuards(JwtAuthGuard, RolesGuard)
+// @Roles(Role.ADMIN)
+// @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('regions')
 export class RegionsController {
   constructor(private readonly regionsService: RegionsService) {}
