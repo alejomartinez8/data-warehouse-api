@@ -8,6 +8,6 @@ export class UpdateCountryDto extends PartialType(CreateCountryDto) {
   name: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsString()
   regionId?: number;
 }

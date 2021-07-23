@@ -26,13 +26,13 @@ export class CreateContactDto {
   @IsString()
   address: string;
 
-  @IsNumber()
+  @IsString()
   interest: Decimal;
 
-  @IsNumber()
+  @IsString()
   cityId: number;
 
-  @IsNumber()
+  @IsString()
   companyId: number;
 
   @IsArray()

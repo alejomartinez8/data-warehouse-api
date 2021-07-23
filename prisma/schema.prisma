@@ -16,7 +16,7 @@ enum Role {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
+  id        String @id @default(uuid())
   email     String @unique
   firstName String
   lastName  String
@@ -25,41 +25,41 @@ model User {
 }
 
 model City {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(uuid())
   name      String    @unique
   country   Country   @relation(fields: [countryId], references: [id])
-  countryId Int
+  countryId String
   companies Company[]
   contacts  Contact[]
 }
 
 model Country {
-  id       Int    @id @default(autoincrement())
+  id       String @id @default(uuid())
   name     String @unique
   region   Region @relation(fields: [regionId], references: [id])
-  regionId Int
+  regionId String
   cities   City[]
 }
 
 model Region {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(uuid())
   name      String    @unique
   countries Country[]
 }
 
 model Company {
-  id      Int       @id @default(autoincrement())
+  id      String    @id @default(uuid())
   name    String    @unique
   address String
   email   String
   phone   String
   city    City      @relation(fields: [cityId], references: [id])
-  cityId  Int
+  cityId  String
   Contact Contact[]
 }
 
 model Contact {
-  id        Int                  @id @default(autoincrement())
+  id        String               @id @default(uuid())
   firstName String
   lastName  String
   email     String               @unique
@@ -67,14 +67,14 @@ model Contact {
   interest  Decimal
   address   String
   company   Company              @relation(fields: [companyId], references: [id])
-  companyId Int
+  companyId String
   city      City                 @relation(fields: [cityId], references: [id])
-  cityId    Int
+  cityId    String
   channels  ChannelsOnContacts[]
 }
 
 model Channel {
-  id                 Int                  @id @default(autoincrement())
+  id                 String               @id @default(uuid())
   name               String
   ChannelsOnContacts ChannelsOnContacts[]
 }
@@ -86,12 +86,12 @@ enum PreferedChanel {
 }
 
 model ChannelsOnContacts {
-  id         Int            @id @default(autoincrement())
-  contact    Contact        @relation(fields: [contactId], references: [id])
-  contactId  Int
-  channel    Channel        @relation(fields: [channelId], references: [id])
-  channelId  Int
+  id         String          @id @default(uuid())
+  contact    Contact         @relation(fields: [contactId], references: [id])
+  contactId  String
+  channel    Channel         @relation(fields: [channelId], references: [id])
+  channelId  String
   account    String?
   phone      String?
-  preference PreferedChanel @default(NO_PREFERENCE)
+  preference PreferedChanel? @default(NO_PREFERENCE)
 }

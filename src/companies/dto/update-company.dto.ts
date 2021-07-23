@@ -20,7 +20,7 @@ export class UpdateCompanyDto extends PartialType(CreateCompanyDto) {
   @IsOptional()
   phone?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
   cityId?: number;
 }

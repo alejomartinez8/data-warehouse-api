@@ -34,11 +34,11 @@ export class UpdateContactDto extends PartialType(CreateContactDto) {
   @IsOptional()
   interest?: Decimal;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
   cityId?: number;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
   companyId?: number;
 

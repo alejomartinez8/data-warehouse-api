@@ -6,6 +6,6 @@ export class CreateCityDto {
   name: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   countryId: number;
 }

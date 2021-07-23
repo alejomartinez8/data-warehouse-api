@@ -22,8 +22,11 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Req() req: RequestWithUser, @Res() res: Response) {
-    const token = await this.authService.getJwtToken(req.user);
-    return res.send(token);
+    // const token = await this.authService.getJwtToken(req.user);
+    // return res.send(token);
+    const cookie = this.authService.getCookieWithJwtToken(req.user.id);
+    res.setHeader('Set-Cookie', cookie);
+    return res.send(req.user);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -18,7 +18,7 @@ export class CreateCompanyDto {
   @IsNotEmpty()
   phone: string;
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
   cityId: number;
 }
