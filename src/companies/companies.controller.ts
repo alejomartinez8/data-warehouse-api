@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CompaniesService } from './companies.service';
-import { Prisma, Company } from '@prisma/client';
+import { Company } from '@prisma/client';
 import { RolesGuard } from 'src/auth/guards/role.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
