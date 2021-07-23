@@ -1,13 +1,6 @@
-import { Decimal } from '@prisma/client/runtime';
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateContactDto } from './create-contact.dto';
-import {
-  IsEmail,
-  IsString,
-  IsNumber,
-  IsArray,
-  IsOptional,
-} from 'class-validator';
+import { IsEmail, IsString, IsArray, IsOptional } from 'class-validator';
 
 export class UpdateContactDto extends PartialType(CreateContactDto) {
   @IsString()
@@ -28,11 +21,7 @@ export class UpdateContactDto extends PartialType(CreateContactDto) {
 
   @IsString()
   @IsOptional()
-  address?: string;
-
-  @IsNumber()
-  @IsOptional()
-  interest?: Decimal;
+  interest?: string;
 
   @IsString()
   @IsOptional()

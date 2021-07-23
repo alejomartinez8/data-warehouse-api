@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
-import { Prisma, Contact } from '@prisma/client';
+import { Contact } from '@prisma/client';
 import { RolesGuard } from 'src/auth/guards/role.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
@@ -45,11 +45,11 @@ export class ContactsController {
 
   @Put(':id')
   async update(
-    @Param('id') companyWhereUniqueInput: Prisma.ContactWhereUniqueInput,
+    @Param('id') id: string,
     @Body() countryUpdateInput: UpdateContactDto,
   ) {
     return this.contactsService.update({
-      where: companyWhereUniqueInput,
+      where: { id },
       data: countryUpdateInput,
     });
   }

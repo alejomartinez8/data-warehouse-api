@@ -64,7 +64,7 @@ model Contact {
   lastName  String
   email     String               @unique
   position  String
-  interest  Decimal
+  interest  String?
   company   Company?             @relation(fields: [companyId], references: [id])
   companyId String?
   city      City?                @relation(fields: [cityId], references: [id])

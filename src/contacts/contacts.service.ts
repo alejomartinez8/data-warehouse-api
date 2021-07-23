@@ -19,7 +19,6 @@ export class ContactsService {
           lastName: data.lastName,
           email: data.email,
           interest: data.interest,
-          address: data.address,
           position: data.position,
           city: { connect: { id: data.cityId } },
           company: { connect: { id: data.companyId } },
@@ -44,7 +43,7 @@ export class ContactsService {
         where,
         orderBy,
         include: {
-          city: true,
+          city: { include: { country: { include: { region: true } } } },
           channels: { include: { channel: true } },
           company: true,
         },

@@ -8,7 +8,6 @@ import {
   Contact,
   Company,
 } from '@prisma/client';
-import { Decimal } from '@prisma/client/runtime';
 import * as bcrypt from 'bcrypt';
 
 export const user: User = {
@@ -24,9 +23,8 @@ export const contact: Contact = {
   id: '1',
   firstName: 'Contact firstName',
   lastName: 'Contact lastName',
-  address: 'Contact address',
   email: 'example@example.com',
-  interest: new Decimal('0.5'),
+  interest: '50',
   position: 'Contact position',
   cityId: '1',
   companyId: '1',

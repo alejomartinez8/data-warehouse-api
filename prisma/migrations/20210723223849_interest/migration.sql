@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Contact" ALTER COLUMN "interest" DROP NOT NULL,
+ALTER COLUMN "interest" SET DATA TYPE TEXT;
