@@ -36,11 +36,11 @@ export class UpdateContactDto extends PartialType(CreateContactDto) {
 
   @IsString()
   @IsOptional()
-  cityId?: number;
+  cityId?: string;
 
   @IsString()
   @IsOptional()
-  companyId?: number;
+  companyId?: string;
 
   @IsArray()
   @IsOptional()

@@ -30,10 +30,10 @@ export class CreateContactDto {
   interest: Decimal;
 
   @IsString()
-  cityId: number;
+  cityId: string;
 
   @IsString()
-  companyId: number;
+  companyId: string;
 
   @IsArray()
   @IsOptional()

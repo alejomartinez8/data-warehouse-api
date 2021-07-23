@@ -7,5 +7,5 @@ export class CreateCityDto {
 
   @IsNotEmpty()
   @IsString()
-  countryId: number;
+  countryId: string;
 }

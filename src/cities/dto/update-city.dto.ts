@@ -9,5 +9,5 @@ export class UpdateCityDto extends PartialType(CreateCityDto) {
 
   @IsOptional()
   @IsString()
-  countryId?: number;
+  countryId?: string;
 }

@@ -22,5 +22,5 @@ export class UpdateCompanyDto extends PartialType(CreateCompanyDto) {
 
   @IsString()
   @IsOptional()
-  cityId?: number;
+  cityId?: string;
 }
