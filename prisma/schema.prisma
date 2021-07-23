@@ -65,11 +65,10 @@ model Contact {
   email     String               @unique
   position  String
   interest  Decimal
-  address   String
-  company   Company              @relation(fields: [companyId], references: [id])
-  companyId String
-  city      City                 @relation(fields: [cityId], references: [id])
-  cityId    String
+  company   Company?             @relation(fields: [companyId], references: [id])
+  companyId String?
+  city      City?                @relation(fields: [cityId], references: [id])
+  cityId    String?
   channels  ChannelsOnContacts[]
 }
 
