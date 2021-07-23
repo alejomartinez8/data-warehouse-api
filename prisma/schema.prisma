@@ -50,11 +50,11 @@ model Region {
 model Company {
   id      String    @id @default(uuid())
   name    String    @unique
-  address String
-  email   String
-  phone   String
-  city    City      @relation(fields: [cityId], references: [id])
-  cityId  String
+  address String?
+  email   String?
+  phone   String?
+  city    City?     @relation(fields: [cityId], references: [id])
+  cityId  String?
   Contact Contact[]
 }
 

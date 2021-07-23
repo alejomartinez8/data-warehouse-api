@@ -36,23 +36,23 @@ export class RegionsController {
 
   @Roles(Role.ADMIN, Role.BASIC)
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    return this.regionsService.findOne({ id: +id });
+  async findOne(@Param('id') id: string) {
+    return this.regionsService.findOne({ id });
   }
 
   @Put(':id')
   async update(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateRegionDto: UpdateRegionDto,
   ) {
     return this.regionsService.update({
-      where: { id: +id },
+      where: { id },
       data: updateRegionDto,
     });
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number) {
-    return this.regionsService.remove({ id: +id });
+  async remove(@Param('id') id: string) {
+    return this.regionsService.remove({ id });
   }
 }

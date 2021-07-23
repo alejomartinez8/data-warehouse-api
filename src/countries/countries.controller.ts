@@ -36,23 +36,23 @@ export class CountriesController {
 
   @Roles(Role.ADMIN, Role.BASIC)
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    return this.countriesService.findOne({ id: +id });
+  async findOne(@Param('id') id: string) {
+    return this.countriesService.findOne({ id });
   }
 
   @Put(':id')
   async update(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateCountryDto: UpdateCountryDto,
   ): Promise<Country> {
     return this.countriesService.update({
-      where: { id: Number(id) },
+      where: { id },
       data: updateCountryDto,
     });
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number): Promise<Country> {
-    return this.countriesService.remove({ id: Number(id) });
+  async remove(@Param('id') id: string): Promise<Country> {
+    return this.countriesService.remove({ id });
   }
 }

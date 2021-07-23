@@ -39,8 +39,8 @@ export class ContactsController {
 
   @Roles(Role.ADMIN, Role.BASIC)
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    return this.contactsService.findOne({ id: +id });
+  async findOne(@Param('id') id: string) {
+    return this.contactsService.findOne({ id });
   }
 
   @Put(':id')
@@ -55,7 +55,7 @@ export class ContactsController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number) {
-    return this.contactsService.remove({ id: Number(id) });
+  async remove(@Param('id') id: string) {
+    return this.contactsService.remove({ id });
   }
 }

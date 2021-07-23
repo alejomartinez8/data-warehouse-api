@@ -35,7 +35,7 @@ export class AuthService {
     }
   }
 
-  public getCookieWithJwtToken(id: number) {
+  public getCookieWithJwtToken(id: string) {
     const payload = { sub: id };
     const token = this.jwtService.sign(payload);
 

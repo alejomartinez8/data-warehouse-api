@@ -36,20 +36,20 @@ export class CitiesController {
 
   @Roles(Role.ADMIN, Role.BASIC)
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    return this.citiesService.findOne({ id: Number(id) });
+  async findOne(@Param('id') id: string) {
+    return this.citiesService.findOne({ id });
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, @Body() updateCityDto: UpdateCityDto) {
+  async update(@Param('id') id: string, @Body() updateCityDto: UpdateCityDto) {
     return this.citiesService.update({
-      where: { id: Number(id) },
+      where: { id },
       data: updateCityDto,
     });
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number) {
-    return this.citiesService.remove({ id: Number(id) });
+  async remove(@Param('id') id: string) {
+    return this.citiesService.remove({ id });
   }
 }

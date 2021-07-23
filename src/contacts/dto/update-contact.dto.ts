@@ -44,5 +44,5 @@ export class UpdateContactDto extends PartialType(CreateContactDto) {
 
   @IsArray()
   @IsOptional()
-  channelIds?: number[];
+  channelIds?: string[];
 }

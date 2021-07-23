@@ -66,8 +66,8 @@ export class CompaniesService {
     const { where, data } = params;
 
     return this.prisma.company.update({
-      data,
       where,
+      data,
     });
   }
 

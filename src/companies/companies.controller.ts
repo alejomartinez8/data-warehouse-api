@@ -39,25 +39,23 @@ export class CompaniesController {
 
   @Roles(Role.ADMIN, Role.BASIC)
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    return this.companiesService.findOne({ id: +id });
+  async findOne(@Param('id') id: string) {
+    return this.companiesService.findOne({ id });
   }
 
   @Put(':id')
   async update(
-    @Param('id') companyWhereUniqueInput: Prisma.CompanyWhereUniqueInput,
+    @Param('id') id: string,
     @Body() updateCompanyDto: UpdateCompanyDto,
   ) {
     return this.companiesService.update({
-      where: companyWhereUniqueInput,
+      where: { id },
       data: updateCompanyDto,
     });
   }
 
   @Delete(':id')
-  async remove(
-    @Param('id') companyWhereUniqueInput: Prisma.CompanyWhereUniqueInput,
-  ) {
-    return this.companiesService.remove(companyWhereUniqueInput);
+  async remove(@Param('id') id: string) {
+    return this.companiesService.remove({ id });
   }
 }

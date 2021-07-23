@@ -37,5 +37,5 @@ export class CreateContactDto {
 
   @IsArray()
   @IsOptional()
-  channelIds?: number[];
+  channelIds?: string[];
 }

@@ -39,23 +39,23 @@ export class ChannelsController {
 
   @Roles(Role.ADMIN, Role.BASIC)
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    return this.channelsService.findOne({ id: +id });
+  async findOne(@Param('id') id: string) {
+    return this.channelsService.findOne({ id });
   }
 
   @Put(':id')
   async update(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateChannelDto: UpdateChannelDto,
   ) {
     return this.channelsService.update({
-      where: { id: Number(id) },
+      where: { id },
       data: updateChannelDto,
     });
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number) {
-    return this.channelsService.remove({ id: Number(id) });
+  async remove(@Param('id') id: string) {
+    return this.channelsService.remove({ id });
   }
 }

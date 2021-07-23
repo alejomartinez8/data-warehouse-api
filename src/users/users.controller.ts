@@ -33,20 +33,20 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    return this.usersService.findOne({ id: +id });
+  async findOne(@Param('id') id: string) {
+    return this.usersService.findOne({ id });
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update({
       data: updateUserDto,
-      where: { id: Number(id) },
+      where: { id },
     });
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number) {
-    return this.usersService.remove({ id: Number(id) });
+  async remove(@Param('id') id: string) {
+    return this.usersService.remove({ id });
   }
 }

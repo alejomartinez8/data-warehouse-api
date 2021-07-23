@@ -39,7 +39,7 @@ export class CitiesService {
         cursor,
         where,
         orderBy,
-        include: { country: { include: { region: true } } },
+        // include: { country: { include: { region: true } } },
       });
     } catch (error) {
       throw error;
