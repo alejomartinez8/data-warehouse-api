@@ -15,18 +15,27 @@ export const sortWithRelations = (orderBy: string, order: string) => {
 };
 
 export const queryWithRelations = (searchQuery: string) => {
-  if (!searchQuery) return {};
+  if (!searchQuery) return undefined;
+
   const where: Prisma.ContactWhereInput = {
     OR: [
-      { firstName: { contains: searchQuery } },
-      { lastName: { contains: searchQuery } },
-      { position: { contains: searchQuery } },
-      { email: { contains: searchQuery } },
-      { company: { name: { contains: searchQuery } } },
-      { city: { name: { contains: searchQuery } } },
-      { city: { country: { name: { contains: searchQuery } } } },
+      { firstName: { contains: searchQuery, mode: 'insensitive' } },
+      { lastName: { contains: searchQuery, mode: 'insensitive' } },
+      { position: { contains: searchQuery, mode: 'insensitive' } },
+      { email: { contains: searchQuery, mode: 'insensitive' } },
+      { company: { name: { contains: searchQuery, mode: 'insensitive' } } },
+      { city: { name: { contains: searchQuery, mode: 'insensitive' } } },
       {
-        city: { country: { region: { name: { contains: searchQuery } } } },
+        city: {
+          country: { name: { contains: searchQuery, mode: 'insensitive' } },
+        },
+      },
+      {
+        city: {
+          country: {
+            region: { name: { contains: searchQuery, mode: 'insensitive' } },
+          },
+        },
       },
     ],
   };

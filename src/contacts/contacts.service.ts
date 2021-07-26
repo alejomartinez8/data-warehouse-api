@@ -1,4 +1,4 @@
-import { sortWithRelations } from './utils/contacts.util';
+import { queryWithRelations, sortWithRelations } from './utils/contacts.util';
 import { UpdateContactDto } from './dto/update-contact.dto';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
@@ -37,8 +37,10 @@ export class ContactsService {
   async findAll(query: FindAllContactsDto): Promise<Contact[]> {
     try {
       const orderBy = sortWithRelations(query.orderBy, query.order);
+      const where = queryWithRelations(query.searchQuery);
 
       return this.prisma.contact.findMany({
+        where,
         orderBy,
         include: {
           city: { include: { country: { include: { region: true } } } },
