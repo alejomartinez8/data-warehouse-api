@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { Contact } from '@prisma/client';
@@ -31,10 +32,10 @@ export class ContactsController {
   @Roles(Role.ADMIN, Role.BASIC)
   @Get()
   async findAll(
-    @Param()
-    params: FindAllContactsDto,
+    @Query()
+    query: FindAllContactsDto,
   ): Promise<Contact[]> {
-    return this.contactsService.findAll(params);
+    return this.contactsService.findAll(query);
   }
 
   @Roles(Role.ADMIN, Role.BASIC)
