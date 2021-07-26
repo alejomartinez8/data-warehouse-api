@@ -1,6 +1,9 @@
 import { Prisma } from '@prisma/client';
 
-export const sortWithRelations = (orderBy: string, order: string) => {
+export const sortWithRelations = (
+  orderBy: string,
+  order: string,
+): Prisma.ContactOrderByInput => {
   switch (orderBy) {
     case 'city':
     case 'company':
@@ -14,10 +17,12 @@ export const sortWithRelations = (orderBy: string, order: string) => {
   }
 };
 
-export const queryWithRelations = (searchQuery: string) => {
+export const queryWithRelations = (
+  searchQuery: string,
+): Prisma.ContactWhereInput => {
   if (!searchQuery) return undefined;
 
-  const where: Prisma.ContactWhereInput = {
+  return {
     OR: [
       { firstName: { contains: searchQuery, mode: 'insensitive' } },
       { lastName: { contains: searchQuery, mode: 'insensitive' } },
@@ -39,6 +44,4 @@ export const queryWithRelations = (searchQuery: string) => {
       },
     ],
   };
-
-  return where;
 };
