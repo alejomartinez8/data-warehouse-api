@@ -5,7 +5,7 @@ export class FindAllContactsDto {
   take?: number;
   cursor?: Prisma.ContactWhereUniqueInput;
   where?: Prisma.ContactWhereInput;
-  orderBy?: string; //Prisma.ContactOrderByInput;
+  orderBy?: string;
   order?: string;
   searchQuery?: string;
 }

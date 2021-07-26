@@ -28,17 +28,17 @@ model User {
 model City {
   id        String    @id @default(uuid())
   name      String    @unique
-  country   Country   @relation(fields: [countryId], references: [id])
-  countryId String
+  country   Country?  @relation(fields: [countryId], references: [id])
+  countryId String?
   companies Company[]
   contacts  Contact[]
 }
 
 model Country {
-  id       String @id @default(uuid())
-  name     String @unique
-  region   Region @relation(fields: [regionId], references: [id])
-  regionId String
+  id       String  @id @default(uuid())
+  name     String  @unique
+  region   Region? @relation(fields: [regionId], references: [id])
+  regionId String?
   cities   City[]
 }
 

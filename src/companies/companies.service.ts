@@ -4,6 +4,7 @@ import { Prisma, Company } from '@prisma/client';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { FindAllCompaniesDto } from './dto/findAll-company.dto';
+import { queryWithRelations, sortWithRelations } from './utils/companies.util';
 
 @Injectable()
 export class CompaniesService {
@@ -29,13 +30,15 @@ export class CompaniesService {
     }
   }
 
-  async findAll(params: FindAllCompaniesDto): Promise<Company[]> {
+  async findAll(query: FindAllCompaniesDto): Promise<Company[]> {
     try {
-      const { skip, take, cursor, where, orderBy } = params;
+      const orderBy = sortWithRelations(
+        query.orderBy,
+        query.order as Prisma.SortOrder,
+      );
+      const where = queryWithRelations(query.searchQuery);
+
       return this.prisma.company.findMany({
-        skip,
-        take,
-        cursor,
         where,
         orderBy,
         include: {

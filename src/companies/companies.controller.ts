@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { CompaniesService } from './companies.service';
 import { Company } from '@prisma/client';
@@ -31,10 +32,10 @@ export class CompaniesController {
   @Roles(Role.ADMIN, Role.BASIC)
   @Get()
   async findAll(
-    @Param()
-    params: FindAllCompaniesDto,
+    @Query()
+    query: FindAllCompaniesDto,
   ): Promise<Company[]> {
-    return this.companiesService.findAll(params);
+    return this.companiesService.findAll(query);
   }
 
   @Roles(Role.ADMIN, Role.BASIC)

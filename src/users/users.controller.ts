@@ -7,6 +7,7 @@ import {
   Body,
   Param,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '@prisma/client';
@@ -28,8 +29,8 @@ export class UsersController {
   }
 
   @Get()
-  async findAll(@Param() params): Promise<User[]> {
-    return this.usersService.findAll(params);
+  async findAll(@Query() query?): Promise<User[]> {
+    return this.usersService.findAll(query);
   }
 
   @Get(':id')

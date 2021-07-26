@@ -2,11 +2,10 @@ import { Prisma } from '@prisma/client';
 
 export const sortWithRelations = (
   orderBy: string,
-  order: string,
-): Prisma.ContactOrderByWithRelationInput => {
+  order: Prisma.SortOrder,
+): Prisma.CompanyOrderByWithRelationInput => {
   switch (orderBy) {
     case 'city':
-    case 'company':
       return { [orderBy]: { name: order } };
 
     case '':
@@ -19,16 +18,15 @@ export const sortWithRelations = (
 
 export const queryWithRelations = (
   searchQuery: string,
-): Prisma.ContactWhereInput => {
+): Prisma.CompanyWhereInput => {
   if (!searchQuery) return undefined;
 
   return {
     OR: [
-      { firstName: { contains: searchQuery, mode: 'insensitive' } },
-      { lastName: { contains: searchQuery, mode: 'insensitive' } },
-      { position: { contains: searchQuery, mode: 'insensitive' } },
+      { name: { contains: searchQuery, mode: 'insensitive' } },
       { email: { contains: searchQuery, mode: 'insensitive' } },
-      { company: { name: { contains: searchQuery, mode: 'insensitive' } } },
+      { address: { contains: searchQuery, mode: 'insensitive' } },
+      { phone: { contains: searchQuery, mode: 'insensitive' } },
       { city: { name: { contains: searchQuery, mode: 'insensitive' } } },
       {
         city: {

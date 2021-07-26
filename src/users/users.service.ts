@@ -1,3 +1,7 @@
+import {
+  queryUsersWithRelations,
+  sortUsersWithRelations,
+} from './utils/users.util';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.services';
 import { User, Prisma } from '@prisma/client';
@@ -15,21 +19,11 @@ export class UsersService {
     return this.prisma.user.create({ data });
   }
 
-  async findAll(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.UserWhereUniqueInput;
-    where?: Prisma.UserWhereInput;
-    orderBy?: Prisma.UserOrderByInput;
-  }): Promise<User[]> {
-    const { skip, take, cursor, where, orderBy } = params;
-    return this.prisma.user.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
-    });
+  async findAll(query?): Promise<User[]> {
+    const where = queryUsersWithRelations(query.searchQuery);
+    const orderBy = sortUsersWithRelations(query.orderBy, query.order);
+
+    return this.prisma.user.findMany({ where, orderBy });
   }
 
   async findOne(

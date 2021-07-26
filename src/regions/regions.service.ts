@@ -22,14 +22,15 @@ export class RegionsService {
 
   async findAll(params: FindAllRegionDto): Promise<Region[]> {
     try {
-      const { skip, take, cursor, where, orderBy } = params;
+      console.log(params);
       return this.prisma.region.findMany({
-        skip,
-        take,
-        cursor,
-        where,
-        orderBy,
-        include: { countries: { include: { cities: true } } },
+        orderBy: { name: 'asc' },
+        include: {
+          countries: {
+            orderBy: { name: 'asc' },
+            include: { cities: { orderBy: { name: 'asc' } } },
+          },
+        },
       });
     } catch (error) {
       throw error;
