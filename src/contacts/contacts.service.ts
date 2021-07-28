@@ -2,7 +2,7 @@ import { queryWithRelations, sortWithRelations } from './utils/contacts.util';
 import { UpdateContactDto } from './dto/update-contact.dto';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
-import { Prisma, Contact } from '@prisma/client';
+import { Prisma, Contact, PreferedChanel } from '@prisma/client';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { FindAllContactsDto } from './dto/findAll-contact.dto';
 
@@ -11,7 +11,13 @@ export class ContactsService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateContactDto): Promise<Contact> {
-    const channels = data.channelIds?.map((channelId) => ({ channelId }));
+    const channels: Prisma.ChannelsOnContactsCreateNestedManyWithoutContactInput = {
+      create: data.channels.map((channel) => ({
+        account: channel.account,
+        preference: channel.preference as PreferedChanel,
+        channel: { connect: { id: channel.channelId } },
+      })),
+    };
 
     try {
       const contact = await this.prisma.contact.create({
@@ -23,7 +29,7 @@ export class ContactsService {
           position: data.position,
           city: { connect: { id: data.cityId } },
           company: { connect: { id: data.companyId } },
-          channels: { create: channels },
+          channels,
         },
         include: { city: true, channels: true, company: true },
       });
@@ -71,9 +77,47 @@ export class ContactsService {
   }): Promise<Contact> {
     const { where, data } = params;
 
+    const {
+      firstName,
+      lastName,
+      email,
+      interest,
+      position,
+      cityId,
+      companyId,
+    } = data;
+
+    const channels =
+      data.channels?.length > 0
+        ? data.channels.map((channel) => ({
+            where: { id: channel.channelId },
+            create: {
+              account: channel.account,
+              preference: channel.preference as PreferedChanel,
+              channel: { connect: { id: channel.channelId } },
+            },
+          }))
+        : undefined;
+
+    const payload: Prisma.ContactUpdateInput = {
+      firstName,
+      lastName,
+      email,
+      interest,
+      position,
+      city: cityId ? { connect: { id: cityId } } : undefined,
+      company: companyId ? { connect: { id: companyId } } : undefined,
+      channels: { deleteMany: {}, connectOrCreate: channels },
+    };
+
     return this.prisma.contact.update({
-      data,
       where,
+      data: payload,
+      include: {
+        city: { include: { country: { include: { region: true } } } },
+        channels: { include: { channel: true } },
+        company: true,
+      },
     });
   }
 

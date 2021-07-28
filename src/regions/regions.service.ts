@@ -22,7 +22,6 @@ export class RegionsService {
 
   async findAll(params: FindAllRegionDto): Promise<Region[]> {
     try {
-      console.log(params);
       return this.prisma.region.findMany({
         orderBy: { name: 'asc' },
         include: {

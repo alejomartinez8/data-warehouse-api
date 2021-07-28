@@ -32,5 +32,5 @@ export class CreateContactDto {
 
   @IsArray()
   @IsOptional()
-  channelIds?: string[];
+  channels?: { channelId: string; account: string; preference: string }[];
 }

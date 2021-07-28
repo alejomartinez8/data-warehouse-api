@@ -8,7 +8,7 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["orderByRelation"]
+  previewFeatures = ["orderByRelation", "referentialActions"]
 }
 
 enum Role {
@@ -28,7 +28,7 @@ model User {
 model City {
   id        String    @id @default(uuid())
   name      String    @unique
-  country   Country?  @relation(fields: [countryId], references: [id])
+  country   Country?  @relation(fields: [countryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   countryId String?
   companies Company[]
   contacts  Contact[]
@@ -37,7 +37,7 @@ model City {
 model Country {
   id       String  @id @default(uuid())
   name     String  @unique
-  region   Region? @relation(fields: [regionId], references: [id])
+  region   Region? @relation(fields: [regionId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   regionId String?
   cities   City[]
 }
@@ -54,7 +54,7 @@ model Company {
   address String?
   email   String?
   phone   String?
-  city    City?     @relation(fields: [cityId], references: [id])
+  city    City?     @relation(fields: [cityId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   cityId  String?
   Contact Contact[]
 }
@@ -66,9 +66,9 @@ model Contact {
   email     String               @unique
   position  String
   interest  String?
-  company   Company?             @relation(fields: [companyId], references: [id])
+  company   Company?             @relation(fields: [companyId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   companyId String?
-  city      City?                @relation(fields: [cityId], references: [id])
+  city      City?                @relation(fields: [cityId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   cityId    String?
   channels  ChannelsOnContacts[]
 }
@@ -87,11 +87,10 @@ enum PreferedChanel {
 
 model ChannelsOnContacts {
   id         String          @id @default(uuid())
-  contact    Contact         @relation(fields: [contactId], references: [id])
+  contact    Contact         @relation(fields: [contactId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  channel    Channel         @relation(fields: [channelId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   contactId  String
-  channel    Channel         @relation(fields: [channelId], references: [id])
   channelId  String
   account    String?
-  phone      String?
   preference PreferedChanel? @default(NO_PREFERENCE)
 }

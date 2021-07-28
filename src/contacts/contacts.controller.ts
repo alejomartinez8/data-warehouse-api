@@ -47,11 +47,11 @@ export class ContactsController {
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() countryUpdateInput: UpdateContactDto,
+    @Body() contactUpdateInput: UpdateContactDto,
   ) {
     return this.contactsService.update({
       where: { id },
-      data: countryUpdateInput,
+      data: contactUpdateInput,
     });
   }
 
