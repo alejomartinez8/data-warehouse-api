@@ -1,7 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, Region } from '@prisma/client';
-import { FindAllRegionDto } from './dto/findAll-region.dto';
 import { CreateRegionDto } from './dto/create-region.dto';
 import { UpdateRegionDto } from './dto/update-region.dto';
 
@@ -20,7 +19,7 @@ export class RegionsService {
     }
   }
 
-  async findAll(params: FindAllRegionDto): Promise<Region[]> {
+  async findAll(): Promise<Region[]> {
     try {
       return this.prisma.region.findMany({
         orderBy: { name: 'asc' },

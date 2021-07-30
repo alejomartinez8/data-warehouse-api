@@ -15,7 +15,6 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Role, Roles } from 'src/auth/decorators/roles.decorator';
 import { UpdateRegionDto } from './dto/update-region.dto';
 import { CreateRegionDto } from './dto/create-region.dto';
-import { FindAllRegionDto } from './dto/findAll-region.dto';
 
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -30,8 +29,8 @@ export class RegionsController {
 
   @Roles(Role.ADMIN, Role.BASIC)
   @Get()
-  async findAll(@Param() params: FindAllRegionDto): Promise<Region[]> {
-    return this.regionsService.findAll(params);
+  async findAll(): Promise<Region[]> {
+    return this.regionsService.findAll();
   }
 
   @Roles(Role.ADMIN, Role.BASIC)
