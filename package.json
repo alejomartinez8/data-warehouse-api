@@ -26,7 +26,7 @@
     "prisma:generate": "npx prisma generate",
     "prisma:seed": "npx prisma db seed --preview-feature",
     "postinstall": "npm run prisma:generate",
-    "start:db": "npm run migrate:up && npm run prisma:generate && npm run prisma:seed",
+    "start:db": "npm run migrate:dev && npm run prisma:generate && npm run prisma:seed",
     "docker:db": "docker-compose -f docker-compose.db.yml up -d",
     "docker": "docker-compose up -d",
     "docker:build": "docker-compose build"

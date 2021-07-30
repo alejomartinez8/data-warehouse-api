@@ -75,7 +75,7 @@ model Contact {
 
 model Channel {
   id                 String               @id @default(uuid())
-  name               String
+  name               String               @unique
   ChannelsOnContacts ChannelsOnContacts[]
 }
 
