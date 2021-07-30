@@ -14,7 +14,9 @@ export class ContactsService {
     const channels: Prisma.ChannelsOnContactsCreateNestedManyWithoutContactInput = {
       create: data.channels.map((channel) => ({
         account: channel.account,
-        preference: channel.preference as PreferedChanel,
+        preference: channel.preference
+          ? (channel.preference as PreferedChanel)
+          : PreferedChanel.NO_PREFERENCE,
         channel: { connect: { id: channel.channelId } },
       })),
     };
@@ -93,7 +95,9 @@ export class ContactsService {
             where: { id: channel.channelId },
             create: {
               account: channel.account,
-              preference: channel.preference as PreferedChanel,
+              preference: channel.preference
+                ? (channel.preference as PreferedChanel)
+                : PreferedChanel.NO_PREFERENCE,
               channel: { connect: { id: channel.channelId } },
             },
           }))
