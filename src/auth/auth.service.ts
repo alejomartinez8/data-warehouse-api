@@ -45,7 +45,7 @@ export class AuthService {
       cookie.serialize('user', token, {
         // httpOnly: true,
         sameSite: 'lax',
-        // secure: !dev,
+        secure: !dev,
         maxAge: 3600,
         path: '/',
       }),
