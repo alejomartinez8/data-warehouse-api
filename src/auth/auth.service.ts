@@ -43,9 +43,9 @@ export class AuthService {
 
     const _cookie = String(
       cookie.serialize('user', token, {
-        httpOnly: true,
-        sameSite: dev ? 'lax' : 'none',
-        secure: !dev,
+        // httpOnly: true,
+        sameSite: 'lax',
+        // secure: !dev,
         maxAge: 3600,
         path: '/',
       }),
