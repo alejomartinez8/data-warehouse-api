@@ -21,25 +21,19 @@ export class ContactsService {
       })),
     };
 
-    try {
-      const contact = await this.prisma.contact.create({
-        data: {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          interest: data.interest,
-          position: data.position,
-          city: { connect: { id: data.cityId } },
-          company: { connect: { id: data.companyId } },
-          channels,
-        },
-        include: { city: true, channels: true, company: true },
-      });
-
-      if (contact) return contact;
-    } catch (error) {
-      throw error;
-    }
+    return this.prisma.contact.create({
+      data: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        interest: data.interest,
+        position: data.position,
+        city: { connect: { id: data.cityId } },
+        company: { connect: { id: data.companyId } },
+        channels,
+      },
+      include: { city: true, channels: true, company: true },
+    });
   }
 
   async findAll(query: FindAllContactsDto) {
