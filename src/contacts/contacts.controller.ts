@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Query,
+  Res,
 } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { Contact } from '@prisma/client';
@@ -17,6 +18,8 @@ import { Role, Roles } from 'src/auth/decorators/roles.decorator';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { FindAllContactsDto } from './dto/findAll-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
+import { Parser } from 'json2csv';
+import { Response } from 'express';
 
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -36,6 +39,52 @@ export class ContactsController {
     query: FindAllContactsDto,
   ): Promise<Contact[]> {
     return this.contactsService.findAll(query);
+  }
+
+  @Roles(Role.ADMIN, Role.BASIC)
+  @Get('/csv')
+  async findAllCVS(
+    @Res() res: Response,
+    @Query()
+    query: FindAllContactsDto,
+  ): Promise<any> {
+    try {
+      const contacts = await this.contactsService.findAll(query);
+
+      const csvFields = [
+        'firstName',
+        'lastName',
+        'email',
+        'position',
+        'intereset',
+        'company',
+        'region',
+        'country',
+        'city',
+      ];
+
+      const data = contacts.map((item) => ({
+        firstName: item.firstName,
+        lastName: item.lastName,
+        email: item.email,
+        position: item.position,
+        interest: item.interest,
+        company: item.company.name,
+        region: item.city?.country?.region?.name,
+        country: item.city?.country?.name,
+        city: item.city?.name,
+      }));
+
+      const json2csv = new Parser({ csvFields });
+      const csv = json2csv.parse(data);
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename=contacts.csv');
+
+      return res.status(200).send(csv);
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Roles(Role.ADMIN, Role.BASIC)

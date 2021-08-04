@@ -2,7 +2,7 @@ import { queryWithRelations, sortWithRelations } from './utils/contacts.util';
 import { UpdateContactDto } from './dto/update-contact.dto';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
-import { Prisma, Contact, PreferedChanel } from '@prisma/client';
+import { Prisma, PreferedChanel } from '@prisma/client';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { FindAllContactsDto } from './dto/findAll-contact.dto';
 
@@ -10,7 +10,7 @@ import { FindAllContactsDto } from './dto/findAll-contact.dto';
 export class ContactsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateContactDto): Promise<Contact> {
+  async create(data: CreateContactDto) {
     const channels: Prisma.ChannelsOnContactsCreateNestedManyWithoutContactInput = {
       create: data.channels.map((channel) => ({
         account: channel.account,
@@ -42,28 +42,22 @@ export class ContactsService {
     }
   }
 
-  async findAll(query: FindAllContactsDto): Promise<Contact[]> {
-    try {
-      const orderBy = sortWithRelations(query.orderBy, query.order);
-      const where = queryWithRelations(query.searchQuery);
+  async findAll(query: FindAllContactsDto) {
+    const orderBy = sortWithRelations(query.orderBy, query.order);
+    const where = queryWithRelations(query.searchQuery);
 
-      return this.prisma.contact.findMany({
-        where,
-        orderBy,
-        include: {
-          city: { include: { country: { include: { region: true } } } },
-          channels: { include: { channel: true } },
-          company: true,
-        },
-      });
-    } catch (error) {
-      throw error;
-    }
+    return this.prisma.contact.findMany({
+      where,
+      orderBy,
+      include: {
+        city: { include: { country: { include: { region: true } } } },
+        channels: { include: { channel: true } },
+        company: true,
+      },
+    });
   }
 
-  async findOne(
-    contactWhereUniqueInput: Prisma.ContactWhereUniqueInput,
-  ): Promise<Contact> {
+  async findOne(contactWhereUniqueInput: Prisma.ContactWhereUniqueInput) {
     const contact = await this.prisma.contact.findUnique({
       where: contactWhereUniqueInput,
     });
@@ -76,7 +70,7 @@ export class ContactsService {
   async update(params: {
     where: Prisma.ContactWhereUniqueInput;
     data: UpdateContactDto;
-  }): Promise<Contact> {
+  }) {
     const { where, data } = params;
 
     const {
@@ -125,7 +119,7 @@ export class ContactsService {
     });
   }
 
-  remove(where: Prisma.ContactWhereUniqueInput): Promise<Contact> {
+  remove(where: Prisma.ContactWhereUniqueInput) {
     return this.prisma.contact.delete({
       where,
     });
