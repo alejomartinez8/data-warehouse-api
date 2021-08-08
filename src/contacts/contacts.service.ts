@@ -28,8 +28,10 @@ export class ContactsService {
         email: data.email,
         interest: data.interest,
         position: data.position,
-        city: { connect: { id: data.cityId } },
-        company: { connect: { id: data.companyId } },
+        city: data.cityId ? { connect: { id: data.cityId } } : undefined,
+        company: data.companyId
+          ? { connect: { id: data.companyId } }
+          : undefined,
         channels,
       },
       include: { city: true, channels: true, company: true },
