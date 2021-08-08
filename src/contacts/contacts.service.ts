@@ -1,14 +1,23 @@
 import { queryWithRelations, sortWithRelations } from './utils/contacts.util';
 import { UpdateContactDto } from './dto/update-contact.dto';
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  HttpStatus,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, PreferedChanel } from '@prisma/client';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { FindAllContactsDto } from './dto/findAll-contact.dto';
+import { CloudinaryService } from './../cloudinary/cloudinary.service';
 
 @Injectable()
 export class ContactsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private cloudinary: CloudinaryService,
+  ) {}
 
   async create(data: CreateContactDto) {
     const channels: Prisma.ChannelsOnContactsCreateNestedManyWithoutContactInput = {
@@ -118,6 +127,12 @@ export class ContactsService {
   remove(where: Prisma.ContactWhereUniqueInput) {
     return this.prisma.contact.delete({
       where,
+    });
+  }
+
+  async uploadImageToCloudinary(file: Express.Multer.File) {
+    return this.cloudinary.uploadImage(file).catch(() => {
+      throw new BadRequestException('Invalid file type');
     });
   }
 }

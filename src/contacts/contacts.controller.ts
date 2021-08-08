@@ -9,7 +9,10 @@ import {
   UseGuards,
   Query,
   Res,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ContactsService } from './contacts.service';
 import { Contact } from '@prisma/client';
 import { RolesGuard } from 'src/auth/guards/role.guard';
@@ -94,18 +97,22 @@ export class ContactsController {
   }
 
   @Put(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() contactUpdateInput: UpdateContactDto,
-  ) {
+  async update(@Param('id') id: string, @Body() body: UpdateContactDto) {
+    console.log(id, body);
     return this.contactsService.update({
       where: { id },
-      data: contactUpdateInput,
+      data: body,
     });
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return this.contactsService.remove({ id });
+  }
+
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadImage(@UploadedFile() file: Express.Multer.File) {
+    return this.contactsService.uploadImageToCloudinary(file);
   }
 }

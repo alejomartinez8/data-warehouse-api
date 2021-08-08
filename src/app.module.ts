@@ -10,6 +10,7 @@ import { ChannelsModule } from './channels/channels.module';
 import { ContactsModule } from './contacts/contacts.module';
 import { APP_FILTER } from '@nestjs/core';
 import { ExceptionsLoggerFilter } from './utils/exceptionsLogger.filter';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ExceptionsLoggerFilter } from './utils/exceptionsLogger.filter';
     CompaniesModule,
     ChannelsModule,
     ContactsModule,
+    CloudinaryModule,
   ],
   providers: [
     {
