@@ -49,7 +49,8 @@ $ npm run docker:db
 ### Migrations and seed (initial data) to Database
 
 ```bash
-$ npm run start:dev
+$ npm run migrate:dev
+$ npm run prisma:seed
 ```
 
 Users created:
