@@ -31,8 +31,22 @@ export class ContactsController {
   constructor(private readonly contactsService: ContactsService) {}
 
   @Post()
-  async create(@Body() data: CreateContactDto): Promise<Contact> {
-    return this.contactsService.create(data);
+  @UseInterceptors(FileInterceptor('file'))
+  async create(
+    @Body() body: CreateContactDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (body.channels) {
+      body.channels = JSON.parse(body.channels as string);
+    }
+
+    if (file) {
+      const result = await this.contactsService.uploadImageToCloudinary(file);
+      body.avatar = result.secure_url;
+      body.cloudinaryId = result.public_id;
+    }
+
+    return this.contactsService.create(body);
   }
 
   @Roles(Role.ADMIN, Role.BASIC)
@@ -97,7 +111,28 @@ export class ContactsController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() body: UpdateContactDto) {
+  @UseInterceptors(FileInterceptor('file'))
+  async update(
+    @Param('id') id: string,
+    @Body() body,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const contact = await this.contactsService.findOne({ id });
+
+    if (contact.cloudinaryId) {
+      await this.contactsService.destroyImage(contact.cloudinaryId);
+    }
+
+    if (file) {
+      const result = await this.contactsService.uploadImageToCloudinary(file);
+      body.avatar = result.secure_url || contact.avatar;
+      body.cloudinaryId = result.public_id || contact.cloudinaryId;
+    }
+
+    if (body.channels) {
+      body.channels = JSON.parse(body.channels);
+    }
+
     return this.contactsService.update({
       where: { id },
       data: body,
@@ -106,6 +141,12 @@ export class ContactsController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
+    const contact = await this.contactsService.findOne({ id });
+
+    if (contact.cloudinaryId) {
+      await this.contactsService.destroyImage(contact.cloudinaryId);
+    }
+
     return this.contactsService.remove({ id });
   }
 

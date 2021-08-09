@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UploadApiErrorResponse, UploadApiResponse, v2 } from 'cloudinary';
-import toStream = require('buffer-to-stream');
+import { Readable } from 'stream';
 
 @Injectable()
 export class CloudinaryService {
@@ -13,7 +13,13 @@ export class CloudinaryService {
         resolve(result);
       });
 
-      toStream(file.buffer).pipe(upload);
+      Readable.from(file.buffer).pipe(upload);
     });
+  }
+
+  destroyImage(
+    id: string,
+  ): Promise<UploadApiResponse | UploadApiErrorResponse> {
+    return v2.uploader.destroy(id);
   }
 }

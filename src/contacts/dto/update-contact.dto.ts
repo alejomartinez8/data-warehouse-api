@@ -31,7 +31,11 @@ export class UpdateContactDto extends PartialType(CreateContactDto) {
   @IsOptional()
   companyId?: string;
 
-  @IsArray()
+  @IsString()
   @IsOptional()
-  channels?: { channelId: string; account: string; preference: string }[];
+  avatar?: string;
+
+  @IsString()
+  @IsOptional()
+  cloudinaryId?: string;
 }

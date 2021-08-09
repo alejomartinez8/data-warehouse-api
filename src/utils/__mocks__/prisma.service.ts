@@ -28,6 +28,8 @@ export const contact: Contact = {
   position: 'Contact position',
   cityId: '1',
   companyId: '1',
+  avatar: 'avatar_url',
+  cloudinaryId: 'cloudinaryId',
 };
 
 export const company: Company = {

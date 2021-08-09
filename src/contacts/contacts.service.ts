@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.services';
 import { Prisma, PreferedChanel } from '@prisma/client';
-import { CreateContactDto } from './dto/create-contact.dto';
+import { CreateContactDto, IContact } from './dto/create-contact.dto';
 import { FindAllContactsDto } from './dto/findAll-contact.dto';
 import { CloudinaryService } from './../cloudinary/cloudinary.service';
 
@@ -21,7 +21,7 @@ export class ContactsService {
 
   async create(data: CreateContactDto) {
     const channels: Prisma.ChannelsOnContactsCreateNestedManyWithoutContactInput = {
-      create: data.channels.map((channel) => ({
+      create: (data.channels as IContact[]).map((channel) => ({
         account: channel.account,
         preference: channel.preference
           ? (channel.preference as PreferedChanel)
@@ -37,6 +37,8 @@ export class ContactsService {
         email: data.email,
         interest: data.interest,
         position: data.position,
+        avatar: data.avatar,
+        cloudinaryId: data.cloudinaryId,
         city: data.cityId ? { connect: { id: data.cityId } } : undefined,
         company: data.companyId
           ? { connect: { id: data.companyId } }
@@ -86,11 +88,13 @@ export class ContactsService {
       position,
       cityId,
       companyId,
+      avatar,
+      cloudinaryId,
     } = data;
 
     const channels =
       data.channels?.length > 0
-        ? data.channels.map((channel) => ({
+        ? (data.channels as IContact[]).map((channel) => ({
             where: { id: channel.channelId },
             create: {
               account: channel.account,
@@ -108,6 +112,8 @@ export class ContactsService {
       email,
       interest,
       position,
+      avatar,
+      cloudinaryId,
       city: cityId ? { connect: { id: cityId } } : undefined,
       company: companyId ? { connect: { id: companyId } } : undefined,
       channels: { deleteMany: {}, connectOrCreate: channels },
@@ -134,5 +140,9 @@ export class ContactsService {
     return this.cloudinary.uploadImage(file).catch(() => {
       throw new BadRequestException('Invalid file type');
     });
+  }
+
+  async destroyImage(id: string) {
+    return this.cloudinary.destroyImage(id);
   }
 }

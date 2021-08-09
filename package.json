@@ -40,7 +40,6 @@
     "@nestjs/platform-express": "^7.6.15",
     "@prisma/client": "^2.27.0",
     "bcrypt": "^5.0.1",
-    "buffer-to-stream": "^1.0.0",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "cloudinary": "^1.26.3",

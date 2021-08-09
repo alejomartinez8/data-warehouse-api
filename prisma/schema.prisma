@@ -60,17 +60,19 @@ model Company {
 }
 
 model Contact {
-  id        String               @id @default(uuid())
-  firstName String
-  lastName  String
-  email     String               @unique
-  position  String
-  interest  String?
-  company   Company?             @relation(fields: [companyId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  companyId String?
-  city      City?                @relation(fields: [cityId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  cityId    String?
-  channels  ChannelsOnContacts[]
+  id           String               @id @default(uuid())
+  firstName    String
+  lastName     String
+  email        String               @unique
+  position     String
+  interest     String?
+  company      Company?             @relation(fields: [companyId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  companyId    String?
+  city         City?                @relation(fields: [cityId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  cityId       String?
+  channels     ChannelsOnContacts[]
+  avatar       String?
+  cloudinaryId String?
 }
 
 model Channel {
