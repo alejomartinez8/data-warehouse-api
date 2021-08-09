@@ -2,6 +2,14 @@
 
 API REST for [data-warehouse-app](https://github.com/alejomartinez8/data-warehouse-app) based in [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Modules
+- NestJS
+- Typescript
+- Prisma (ORM)
+- bcrypt
+- passport
+- cloudinary (media storage)
+
 ## Installation
 
 ```bash
