@@ -98,7 +98,6 @@ export class ContactsController {
 
   @Put(':id')
   async update(@Param('id') id: string, @Body() body: UpdateContactDto) {
-    console.log(id, body);
     return this.contactsService.update({
       where: { id },
       data: body,
