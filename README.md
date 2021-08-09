@@ -9,6 +9,7 @@ $ npm install
 ```
 
 ### Installation env vars
+Create an .env file in the root and add the next vars, to create an account in cloudinary visit https://cloudinary.com/
 
 ```
 # SECRET JWT
