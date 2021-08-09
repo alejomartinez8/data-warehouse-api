@@ -46,7 +46,7 @@ API_SECRET=YOUR-API-SECRET
 ```
 Example https://github.com/alejomartinez8/data-warehouse-api/blob/master/.env.example
 
-### Installation Database
+### Installation Database POSTGRES
 
 #### With Docker
 
