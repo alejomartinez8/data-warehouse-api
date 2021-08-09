@@ -51,10 +51,7 @@ export class ContactsController {
 
   @Roles(Role.ADMIN, Role.BASIC)
   @Get()
-  async findAll(
-    @Query()
-    query: FindAllContactsDto,
-  ): Promise<Contact[]> {
+  async findAll(@Query() query?) {
     return this.contactsService.findAll(query);
   }
 
