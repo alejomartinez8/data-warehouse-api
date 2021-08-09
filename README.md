@@ -85,12 +85,3 @@ $ npm run start:prod
 # unit tests
 $ npm run test
 ```
-
-## Demo
-
-https://data-warehouse-am-api.herokuapp.com/
-
-Users:
-
-- admin@example.com / pwd: 87654321
-- user@example.com / pwd: 12345678
