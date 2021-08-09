@@ -8,20 +8,41 @@ API REST for [data-warehouse-app](https://github.com/alejomartinez8/data-warehou
 $ npm install
 ```
 
+### Installation env vars
+
+```
+# SECRET JWT
+JWT_SECRET=SECRET_WORD
+
+# POSTGRES
+POSTGRES_USER=root
+POSTGRES_PASSWORD=password
+POSTGRES_DB=data-warehouse-db
+
+# Nest run locally
+DB_HOST=localhost
+# Nest run in docker, change host to database container name
+# DB_HOST=postgres
+DB_PORT=5432
+DB_SCHEMA=public
+
+# Prisma database connection
+DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DB_HOST}:${DB_PORT}/${POSTGRES_DB}?schema=${DB_SCHEMA}&sslmode=prefer
+
+# Cloudinary
+CLOUD_NAME=YOUR-CLOUD-NAME
+API_KEY=YOUR-API-KEY
+API_SECRET=YOUR-API-SECRET
+
+```
+Example https://github.com/alejomartinez8/data-warehouse-api/blob/master/.env.example
+
 ### Installation Database
 
 #### With Docker
 
 ```bash
 $ npm run docker:db
-```
-
-### Installation env vars
-
-```
-DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
-
-JWT_SECRET=secrete
 ```
 
 ### Migrations and seed (initial data) to Database
