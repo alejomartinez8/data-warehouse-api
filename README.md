@@ -12,10 +12,6 @@ API REST for [data-warehouse-app](https://github.com/alejomartinez8/data-warehou
 
 ## Installation
 
-```bash
-$ npm install
-```
-
 ### Installation Database
 
 Install postgres Database
@@ -55,6 +51,12 @@ API_SECRET=YOUR-API-SECRET
 
 ```
 Example https://github.com/alejomartinez8/data-warehouse-api/blob/master/.env.example
+
+### Install modules
+
+```bash
+$ npm install
+```
 
 ### Migrations and seed (initial data) to Database
 
