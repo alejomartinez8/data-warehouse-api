@@ -15,10 +15,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
     origin: false,
-    // allowedHeaders:
-    //   'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
-    // methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
-    // credentials: true,
   });
   app.use(cookieParser());
   await app.listen(process.env.PORT || 4000);

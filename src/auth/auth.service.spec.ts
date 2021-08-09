@@ -12,7 +12,7 @@ import { User, Role } from '@prisma/client';
 jest.mock('bcrypt');
 
 const mockedUser: User = {
-  id: 1,
+  id: '1',
   email: 'example@example.com',
   firstName: 'firstName',
   lastName: 'lastName',
