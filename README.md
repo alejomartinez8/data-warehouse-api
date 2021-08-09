@@ -16,7 +16,17 @@ API REST for [data-warehouse-app](https://github.com/alejomartinez8/data-warehou
 $ npm install
 ```
 
-### Installation env vars
+### Installation Database
+
+Install postgres Database
+
+#### With Docker
+
+```bash
+$ npm run docker:db
+```
+
+### Add env vars
 Create an .env file in the root and add the next vars, to create an account in cloudinary visit https://cloudinary.com/
 
 ```
@@ -45,14 +55,6 @@ API_SECRET=YOUR-API-SECRET
 
 ```
 Example https://github.com/alejomartinez8/data-warehouse-api/blob/master/.env.example
-
-### Installation Database POSTGRES
-
-#### With Docker
-
-```bash
-$ npm run docker:db
-```
 
 ### Migrations and seed (initial data) to Database
 
