@@ -18,6 +18,8 @@ Install postgres Database
 
 #### With Docker
 
+You have to set .env file first to install with docker.
+
 ```bash
 $ npm run docker:db
 ```
